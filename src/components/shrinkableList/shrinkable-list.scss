@@ -1,0 +1,56 @@
+@import "../../shared";
+
+.shrinkable-list-container {
+  border: 1px solid red;
+  background-color: $palette-alt-lighter;
+  color: $palette-main-text;
+
+  display: flex;
+  flex-flow: row nowrap;
+
+  ul {
+    border: 1px solid blue;
+
+    margin: 5px;
+    list-style-type: none;
+
+    flex-grow: 1;
+
+    &.shrinked {
+      flex-grow: 0.1;
+      margin: 5px;
+    }
+
+    transition: all 1s ease-in-out;
+  }
+
+  section {
+    border: 1px solid green;
+    margin: 5px;
+    overflow: hidden;
+  }
+}
+
+.slide-enter {
+  flex-grow: 0;
+  opacity: 0;
+}
+.slide-enter-active {
+  flex-grow: 1;
+  opacity: 1;
+  transition: all 800ms ease-out;
+}
+.slide-enter-done {
+  flex-grow: 1;
+}
+.slide-exit {
+  flex-grow: 1;
+}
+.slide-exit-active {
+  flex-grow: 0;
+  opacity: 0;
+  transition: all 800ms ease-in;
+}
+.slide-exit-done {
+  flex-grow: 0;
+}

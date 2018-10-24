@@ -1,0 +1,28 @@
+// functions
+@function tint($color, $percentage) {
+  @return mix(white, $color, $percentage);
+}
+
+@function shade($color, $percentage) {
+  @return mix(black, $color, $percentage);
+}
+
+@function tone($color, $percentage) {
+  @return mix(gray, $color, $percentage);
+}
+
+// palette
+
+$palette-main-bad: #ff3434;
+$palette-main-warn: #e2ff49;
+$palette-main-good: #22ff47;
+$palette-main-general: #0c0a38;
+$palette-alt-general: #1535d4;
+
+$palette-soft-background: tint($palette-main-warn, 80);
+$palette-main-text: shade($palette-main-general, 20);
+
+$palette-inverse-text: $palette-soft-background;
+$palette-inverse-background: $palette-main-text;
+
+$palette-alt-lighter: tint($palette-alt-general, 80);
