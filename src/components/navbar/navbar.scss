@@ -4,4 +4,7 @@ nav {
   padding: 1rem;
   background-color: $palette-inverse-background;
   color: $palette-inverse-text;
+  a {
+    margin: auto 1rem;
+  }
 }
