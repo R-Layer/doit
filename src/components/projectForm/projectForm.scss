@@ -1,0 +1,21 @@
+@import "../../shared";
+
+textarea {
+  resize: none;
+}
+
+.dynamic-list {
+  list-style-type: none;
+  input {
+    border-bottom: 3px ridge $palette-alt-lighter;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    margin-right: 1rem;
+  }
+}
+
+.dynamic-list-element {
+  display: flex;
+  justify-content: space-between;
+}
