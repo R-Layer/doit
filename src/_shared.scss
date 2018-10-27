@@ -19,6 +19,12 @@ $palette-main-good: #22ff47;
 $palette-main-general: #0c0a38;
 $palette-alt-general: #1535d4;
 
+$palette-soft-bad: tint($palette-main-bad, 80);
+$palette-soft-warn: tint($palette-main-warn, 80);
+$palette-soft-good: tint($palette-main-good, 80);
+$palette-soft-general: tint($palette-main-general, 80);
+$palette-soft-alt: tint($palette-alt-general, 80);
+
 $palette-soft-background: tint($palette-main-warn, 80);
 $palette-main-text: shade($palette-main-general, 20);
 

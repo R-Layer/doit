@@ -6,7 +6,6 @@ textarea {
 
 .dynamic-list {
   list-style-type: none;
-  margin: 0;
   input {
     border-bottom: 3px ridge $palette-alt-lighter;
     border-top: none;
@@ -39,33 +38,12 @@ textarea {
   text-overflow: ellipsis;
 }
 
+.radio-group,
+.checkbox-group {
+  border: 1px solid red;
+  justify-content: space-evenly;
+}
+
 .form-label {
   text-align: center;
-}
-
-select:invalid {
-  color: #999;
-}
-
-.toast {
-  white-space: pre-wrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  h5 {
-    text-align: center;
-  }
-}
-
-.role-list {
-  list-style-type: none;
-  margin: 0;
-}
-
-.form-section > button {
-  float: right;
-}
-
-form > button {
-  width: 100%;
-  margin: 2rem auto;
 }
