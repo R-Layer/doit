@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { CSSTransition } from "react-transition-group";
 
-import DetailSection from "../detailSection/DetailSection";
+//import DetailSection from "../detailSection/DetailSection";
 import DetailPanel from "../detailPanel/DetailPanel";
 
 import FilterOutBox from "../filteroutBox/FilterOutBox";

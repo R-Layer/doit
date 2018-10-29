@@ -32,3 +32,4 @@ $palette-inverse-text: $palette-soft-background;
 $palette-inverse-background: $palette-main-text;
 
 $palette-alt-lighter: tint($palette-alt-general, 80);
+$palette-hard-warn: shade($palette-main-warn, 20);

@@ -36,14 +36,14 @@ textarea {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-bottom: 1rem;
 }
 
-.radio-group,
 .checkbox-group {
-  border: 1px solid red;
   justify-content: space-evenly;
 }
 
 .form-label {
-  text-align: center;
+  text-align: start;
+  margin-left: 1rem;
 }

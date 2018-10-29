@@ -19,14 +19,32 @@ class UserForm extends Component {
   render() {
     return (
       <form className="form-horizontal">
+        <div className="form-section columns">
+          <div className="col-2  col-sm-12">
+            <label className="form-label" htmlFor="username">
+              Username
+            </label>
+          </div>
+          <div className="col-4 col-sm-12">
+            <input className="form-input" id="username" />
+          </div>
+          <div className="col-2  col-sm-12">
+            <label className="form-label" htmlFor="email">
+              Email
+            </label>
+          </div>
+          <div className="col-4 col-sm-12">
+            <input className="form-input" id="email" />
+          </div>
+        </div>
         <div className="form-section">
           <div className="form-group">
-            <div className="col-2 col-md-4 col-sm-12">
+            <div className="col-2  col-sm-12">
               <label className="form-label" htmlFor="project-name">
                 Timezone
               </label>
             </div>
-            <div className="col-4 col-md-8 col-sm-12">
+            <div className="col-10 col-sm-12">
               <select className="form-select">
                 <option>Choose your timezone [credits to dmfilipenko]</option>
                 {timezones.map(timezone => (
@@ -36,12 +54,12 @@ class UserForm extends Component {
             </div>
             <div className="columns col-12">
               <div className="columns column col-6 col-xs-12">
-                <div className="column col-2 col-md-4">
+                <div className="column col-4">
                   <label className="form-label" htmlFor="project-description">
                     From
                   </label>
                 </div>
-                <div className="column col-4 col-md-8">
+                <div className="column col-6 col-md-8">
                   <div className="input-group">
                     <input type="time" className="form-input" />
                     <span className="input-group-addon">
@@ -49,12 +67,12 @@ class UserForm extends Component {
                     </span>
                   </div>
                 </div>
-                <div className="column col-2 col-md-4">
+                <div className="column col-4">
                   <label className="form-label" htmlFor="project-description">
                     To
                   </label>
                 </div>
-                <div className="column col-4 col-md-8">
+                <div className="column col-6 col-md-8">
                   <div className=" input-group">
                     <input type="time" className="form-input" />
                     <span className="input-group-addon">
@@ -64,23 +82,6 @@ class UserForm extends Component {
                 </div>
               </div>
               <div className="columns column col-6 col-xs-12">
-                <div
-                  className="column col-12 radio-group"
-                  onChange={this.handleChange}
-                >
-                  <label className="form-radio form-inline">
-                    <input type="radio" name="days" value="weekend" />
-                    <i className="form-icon" /> weekend
-                  </label>
-                  <label className="form-radio form-inline">
-                    <input type="radio" name="days" value="business" />
-                    <i className="form-icon" /> business days
-                  </label>
-                  <label className="form-radio form-inline">
-                    <input type="radio" name="days" value="other" />
-                    <i className="form-icon" /> other
-                  </label>
-                </div>
                 <div className="column col-12  checkbox-group">
                   <label className="form-checkbox form-inline">
                     <input type="checkbox" />
@@ -115,6 +116,9 @@ class UserForm extends Component {
             </div>
           </div>
         </div>
+        <button type="submit" className="btn">
+          Register
+        </button>
       </form>
     );
   }

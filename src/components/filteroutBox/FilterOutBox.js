@@ -3,11 +3,14 @@ import PropTypes from "prop-types";
 
 const FilterOutBox = ({ filterString }) => {
   return (
-    <input
-      className="input-box"
-      id="input-box"
-      onChange={e => filterString(e.target.value)}
-    />
+    <>
+      <input
+        className="input-box"
+        id="input-box"
+        onChange={e => filterString(e.target.value)}
+      />
+      <i className="icon icon-search" />
+    </>
   );
 };
 

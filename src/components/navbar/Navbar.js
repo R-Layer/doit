@@ -7,7 +7,7 @@ class Navbar extends Component {
     return (
       <nav className="navbar">
         <section className="navbar-section">first sect</section>
-        <section className="navbar-center">centr sect</section>
+        <section className="navbar-center" />
         <section className="navbar-section">{this.props.children}</section>
       </nav>
     );

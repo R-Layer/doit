@@ -2,6 +2,8 @@
 @import "~spectre.css/src/spectre.scss";
 @import "~spectre.css/src/spectre-icons.scss";
 
+@import "./_shared";
+
 // Reset
 *,
 *::before,
@@ -9,4 +11,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+// General setup
+
+* {
+  color: $palette-main-text;
 }

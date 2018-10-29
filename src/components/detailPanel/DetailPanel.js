@@ -21,7 +21,6 @@ class DetailPanel extends Component {
       <section className={`detail-panel ${mobile ? "mobile" : ""}`}>
         {!mobile && (
           <>
-            {" "}
             <div className="panel-header text-center">
               <div className="panel-title h5 mt-10">
                 {project["project-title"]}
@@ -57,7 +56,15 @@ class DetailPanel extends Component {
         <div className="panel-body">
           {this.state.mainPane === "description" ? (
             <>
-              <p className="flex-par">{project["project-description"]}</p>
+              <div className="flex-par">
+                <p>{project["project-description"]}</p>
+                <hr />
+                <ul>
+                  {project.goalsList.map(goal => (
+                    <li key={goal.key}>{goal.value}</li>
+                  ))}
+                </ul>
+              </div>
               <span>
                 {mobile && (
                   <>
@@ -82,8 +89,7 @@ class DetailPanel extends Component {
                 <li key={role.key} className="columns">
                   <button className="column col-4">
                     <i className="icon icon-check" />
-                    <br />
-                    <small>Apply for the role</small>
+                    <small> Apply for the role</small>
                   </button>
                   <div className="column col-8">
                     <h6>
@@ -99,7 +105,7 @@ class DetailPanel extends Component {
           )}
         </div>
         <div className="panel-footer">
-          <span>Expires: </span>
+          Expires:
           {project.fulfillOrDelete}
         </div>
       </section>
