@@ -1,0 +1,53 @@
+@import "../../shared";
+
+.tab-fake-link {
+  cursor: pointer;
+  &:hover {
+    color: #335068;
+  }
+}
+
+.flex-list {
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.flex-par {
+  background-color: yellowgreen;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.detail-panel {
+  margin-top: 1rem;
+  border-left: 5px solid $palette-alt-general;
+  padding: 1rem;
+  height: 60vh;
+  width: 60vw;
+  min-width: 200px;
+  transition: all 1s linear;
+  ul {
+    width: 100%;
+    margin: 0;
+    list-style-type: none;
+  }
+
+  &.mobile {
+    border-left: none;
+    border-bottom: 2px solid $palette-main-text;
+    margin: auto;
+    height: auto;
+
+    select {
+      white-space: pre-wrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 200px;
+    }
+  }
+}
+
+.panel-footer {
+  font: 400 0.75rem "Lucida Console", Monaco, monospace;
+  margin-top: 1rem;
+}

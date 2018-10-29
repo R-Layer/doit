@@ -75,6 +75,7 @@ class ProjectForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
     console.log(this.state);
+    // author - post date
   };
 
   render() {

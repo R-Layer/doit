@@ -2,17 +2,41 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { CSSTransition } from "react-transition-group";
 
+import DetailSection from "../detailSection/DetailSection";
 import DetailPanel from "../detailPanel/DetailPanel";
+
 import FilterOutBox from "../filteroutBox/FilterOutBox";
+
+import { projects } from "../../redux/testList";
 
 import "./shrinkable-list.scss";
 class ShrinkableList extends Component {
-  componentDidMount() {
-    this.props.fetchList();
+  constructor(props) {
+    super(props);
+    this.state = {
+      mobile: false
+    };
   }
 
+  componentDidMount() {
+    this.props.fetchList();
+    window.addEventListener("resize", this.checkWidth);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.checkWidth);
+  }
+
+  checkWidth = () => {
+    this.setState({ width: window.innerWidth });
+  };
+
   toggleDetail = e => {
+    console.log(e.target);
     if (e.target.id === "input-box") return;
+
+    this.setState({ mobile: window.innerWidth < 500 ? true : false });
+
     const { listStatus, setActive } = this.props;
     if (e.target.id === listStatus.activeItem) {
       setActive(null);
@@ -24,26 +48,36 @@ class ShrinkableList extends Component {
   render() {
     const { listStatus, setFilter } = this.props;
     const actualItems = listStatus.listElements.filter(element =>
-      element.val.includes(listStatus.filterString)
+      element["project-title"].includes(listStatus.filterString)
     );
     return (
       <article className="shrinkable-list-container">
-        <ul onClick={this.toggleDetail}>
+        <ul
+          className={`${!!listStatus.activeItem ? "shrinked" : ""} main-list`}
+        >
           <FilterOutBox filterString={setFilter} />
           {actualItems.map(el => (
             <li key={el.key} id={el.key}>
-              {el.val}
+              <span key={el.key} id={el.key} onClick={this.toggleDetail}>
+                {el["project-title"]}
+              </span>
+              {this.state.mobile &&
+                listStatus.activeItem === el.key && (
+                  <DetailPanel project={el} mobile={true} />
+                )}
             </li>
           ))}
         </ul>
-        <CSSTransition
-          in={!!listStatus.activeItem}
-          timeout={800}
-          classNames="slide"
-          unmountOnExit
-        >
-          <DetailPanel>{listStatus.activeItem} </DetailPanel>
-        </CSSTransition>
+        {!this.state.mobile && (
+          <CSSTransition
+            in={!!listStatus.activeItem}
+            timeout={800}
+            classNames="slide"
+            unmountOnExit
+          >
+            <DetailPanel project={projects[0]} mobile={false} />
+          </CSSTransition>
+        )}
       </article>
     );
   }

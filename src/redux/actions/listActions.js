@@ -1,9 +1,9 @@
 import { fetchListItems, SET_ACTIVE_ITEM, SET_FILTER_STRING } from "../types";
 
-import { list } from "../testList";
+import { projects } from "../testList";
 
 export const fetchList = () => dispatch => {
-  return dispatch({ type: fetchListItems.SUCCESS, payload: list });
+  return dispatch({ type: fetchListItems.SUCCESS, payload: projects });
 };
 
 export const setFilterString = filter => dispatch =>
