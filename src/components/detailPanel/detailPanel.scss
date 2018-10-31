@@ -18,6 +18,9 @@
 }
 
 .flex-par {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
   overflow-y: auto;
   height: 400px;
   padding: 1rem;

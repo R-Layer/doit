@@ -116,6 +116,49 @@ class UserForm extends Component {
             </div>
           </div>
         </div>
+        <div className="form-section columns">
+          <div className="col-2 col-sm-12">
+            <label className="form-label" htmlFor="project-goals">
+              Contacts:
+            </label>
+          </div>
+          <div className="col-10 col-sm-12">
+            <ul id="project-goals-list" className="dynamic-list">
+              <li>
+                <div className="input-group">
+                  <input
+                    type="text"
+                    className="form-input"
+                    id="project-goal"
+                    value={this.state["project-goal"]}
+                    onChange={this.handleChange}
+                  />
+                  <button
+                    className="btn btn-primary input-group-btn"
+                    onClick={this.appendGoal}
+                    disabled={this.state["project-goal"] === ""}
+                  >
+                    Add contact
+                  </button>
+                </div>
+              </li>
+              {this.state.daysValue.map(goal => (
+                <li
+                  key={goal.key}
+                  id={goal.key}
+                  className="toast toast-primary"
+                >
+                  <button
+                    className="btn btn-clear float-right"
+                    onClick={this.removeGoal}
+                    type="button"
+                  />
+                  {goal.value}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
         <button type="submit" className="btn">
           Register
         </button>

@@ -24,11 +24,8 @@ textarea {
   min-width: 300px;
   padding: 1rem;
 
-  &:nth-child(1) {
-    background-color: $palette-soft-bad;
-  }
-  &:nth-child(3) {
-    background-color: $palette-soft-good;
+  &:nth-child(odd) {
+    background-color: $palette-soft-alt;
   }
 }
 

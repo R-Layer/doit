@@ -6,7 +6,7 @@ class Navbar extends Component {
   render() {
     return (
       <nav className="navbar">
-        <section className="navbar-section">first sect</section>
+        <section className="navbar-section" />
         <section className="navbar-center" />
         <section className="navbar-section">{this.props.children}</section>
       </nav>

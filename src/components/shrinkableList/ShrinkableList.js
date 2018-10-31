@@ -50,23 +50,37 @@ class ShrinkableList extends Component {
     const actualItems = listStatus.listElements.filter(element =>
       element["project-title"].includes(listStatus.filterString)
     );
+    //const actualItems = [];
     return (
       <article className="shrinkable-list-container">
         <ul
           className={`${!!listStatus.activeItem ? "shrinked" : ""} main-list`}
         >
           <FilterOutBox filterString={setFilter} />
-          {actualItems.map(el => (
-            <li key={el.key} id={el.key}>
-              <span key={el.key} id={el.key} onClick={this.toggleDetail}>
-                {el["project-title"]}
-              </span>
-              {this.state.mobile &&
-                listStatus.activeItem === el.key && (
-                  <DetailPanel project={el} mobile={true} />
-                )}
+          {actualItems.length === 0 ? (
+            <li class="empty">
+              <div class="empty-icon">
+                <i class="icon icon-flag" />
+              </div>
+              <p class="empty-title h5">No workgroup yet</p>
+              <p class="empty-subtitle">Click to create your own!</p>
+              <div class="empty-action">
+                <button class="btn btn-primary">Create new workgroup</button>
+              </div>
             </li>
-          ))}
+          ) : (
+            actualItems.map(el => (
+              <li key={el.key} id={el.key}>
+                <span key={el.key} id={el.key} onClick={this.toggleDetail}>
+                  {el["project-title"]}
+                </span>
+                {this.state.mobile &&
+                  listStatus.activeItem === el.key && (
+                    <DetailPanel project={el} mobile={true} />
+                  )}
+              </li>
+            ))
+          )}
         </ul>
         {!this.state.mobile && (
           <CSSTransition
