@@ -12,6 +12,7 @@ textarea {
     border-right: none;
     border-left: none;
     margin-right: 1rem;
+    background-color: transparent;
   }
 }
 
@@ -23,9 +24,14 @@ textarea {
 .form-section {
   min-width: 300px;
   padding: 1rem;
+  border-radius: 5px;
 
-  &:nth-child(odd) {
-    background-color: $palette-soft-alt;
+  &.columns {
+    margin: 0;
+  }
+
+  &:nth-child(2) {
+    background-color: $palette-soft-warn;
   }
 }
 
@@ -43,4 +49,21 @@ textarea {
 .form-label {
   text-align: start;
   margin-left: 1rem;
+}
+
+.avatar-container {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  margin-left: 2rem;
+  img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+
+  .file-input {
+    overflow: hidden;
+  }
 }

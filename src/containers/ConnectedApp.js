@@ -5,19 +5,24 @@ import {
   setFilterString
 } from "../redux/actions/listActions";
 
-import ShrinkableList from "../components/shrinkableList/ShrinkableList";
+import { loginAction, registerAction } from "../redux/actions/authActions";
+
+import App from "../app/App";
 
 const mapStateToProps = state => ({
-  listStatus: state.list
+  listStatus: state.list,
+  authStatus: state.auth
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchList: () => dispatch(fetchList()),
   setActive: id => dispatch(setActiveItem(id)),
-  setFilter: filter => dispatch(setFilterString(filter))
+  setFilter: filter => dispatch(setFilterString(filter)),
+  login: loginData => dispatch(loginAction(loginData)),
+  register: registerData => dispatch(registerAction(registerData))
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ShrinkableList);
+)(App);

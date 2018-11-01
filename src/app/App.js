@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Navbar from "../components/navbar/Navbar";
 import ProjectForm from "../components/projectForm/ProjectForm";
-import UserForm from "../components/userForm/UserForm";
-import ShrinkableList from "../containers/ShrinkableList";
+import LoginForm from "../components/loginForm/LoginForm";
+import RegisterForm from "../components/registerForm/RegisterForm";
+import ShrinkableList from "../components/shrinkableList/ShrinkableList";
 
 import "./App.scss";
 
@@ -14,16 +15,32 @@ class App extends Component {
       <Router>
         <div className="app-container">
           <header>
-            <Navbar>
-              <Link to="/">Home</Link>
-              <Link to="/create-form">New Form</Link>
-              <Link to="/create-user">New User</Link>
-            </Navbar>
+            <Navbar />
           </header>
           <main>
-            <Route path="/" exact component={ShrinkableList} />
-            <Route path="/create-form" component={ProjectForm} />
-            <Route path="/create-user" component={UserForm} />
+            <Switch>
+              <Route
+                path="/"
+                exact
+                render={() => (
+                  <ShrinkableList
+                    listStatus={this.props.listStatus}
+                    fetchList={this.props.fetchList}
+                    setActive={this.props.setActive}
+                    setFilter={this.props.setFilter}
+                  />
+                )}
+              />
+              <Route path="/create-form" render={() => <ProjectForm />} />
+              <Route
+                path="/register"
+                render={() => <RegisterForm register={this.props.register} />}
+              />
+              <Route
+                path="/login"
+                render={() => <LoginForm login={this.props.login} />}
+              />
+            </Switch>
           </main>
         </div>
       </Router>

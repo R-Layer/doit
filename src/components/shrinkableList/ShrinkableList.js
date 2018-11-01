@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { CSSTransition } from "react-transition-group";
 
-//import DetailSection from "../detailSection/DetailSection";
 import DetailPanel from "../detailPanel/DetailPanel";
 
 import FilterOutBox from "../filteroutBox/FilterOutBox";
@@ -32,7 +31,6 @@ class ShrinkableList extends Component {
   };
 
   toggleDetail = e => {
-    console.log(e.target);
     if (e.target.id === "input-box") return;
 
     this.setState({ mobile: window.innerWidth < 500 ? true : false });
@@ -58,14 +56,16 @@ class ShrinkableList extends Component {
         >
           <FilterOutBox filterString={setFilter} />
           {actualItems.length === 0 ? (
-            <li class="empty">
-              <div class="empty-icon">
-                <i class="icon icon-flag" />
+            <li className="empty">
+              <div className="empty-icon">
+                <i className="icon icon-flag" />
               </div>
-              <p class="empty-title h5">No workgroup yet</p>
-              <p class="empty-subtitle">Click to create your own!</p>
-              <div class="empty-action">
-                <button class="btn btn-primary">Create new workgroup</button>
+              <p className="empty-title h5">No workgroup yet</p>
+              <p className="empty-subtitle">Click to create your own!</p>
+              <div className="empty-action">
+                <button className="btn btn-primary">
+                  Create new workgroup
+                </button>
               </div>
             </li>
           ) : (
