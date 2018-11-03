@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { roles } from "../../redux/rolesAvailables";
-import "./projectForm.scss";
+import "./forms.scss";
 
 class ProjectForm extends Component {
   constructor(props) {
@@ -83,12 +83,12 @@ class ProjectForm extends Component {
       <form className="form-horizontal" onSubmit={this.handleSubmit}>
         <div className="form-section">
           <div className="form-group">
-            <div className="col-2 col-sm-12">
+            <div className="col-2 col-md-3 col-sm-12">
               <label className="form-label" htmlFor="project-name">
                 Name
               </label>
             </div>
-            <div className="col-10 col-sm-12">
+            <div className="col-10 col-md-9 col-sm-12">
               <input
                 className="form-input"
                 type="text"
@@ -100,12 +100,12 @@ class ProjectForm extends Component {
             </div>
           </div>
           <div className="form-group">
-            <div className="col-2 col-sm-12">
+            <div className="col-2 col-md-3 col-sm-12">
               <label className="form-label" htmlFor="project-description">
                 Description
               </label>
             </div>
-            <div className="col-10 col-sm-12">
+            <div className="col-10 col-md-9 col-sm-12">
               <textarea
                 className="form-input"
                 maxLength="300"
@@ -118,12 +118,12 @@ class ProjectForm extends Component {
             </div>
           </div>
           <div className="form-group">
-            <div className="col-2 col-sm-12">
+            <div className="col-2 col-md-3 col-sm-12">
               <label className="form-label" htmlFor="project-goals">
                 Project Goals:
               </label>
             </div>
-            <div className="col-10 col-sm-12">
+            <div className="col-10 col-md-9 col-sm-12">
               <ul id="project-goals-list" className="dynamic-list">
                 <li>
                   <div className="input-group">
@@ -166,7 +166,7 @@ class ProjectForm extends Component {
 
         <div className="form-section">
           <div className="form-group">
-            <div className="col-2 col-sm-12">
+            <div className="col-2 col-md-3 col-sm-12">
               <label className="form-label" htmlFor="project-description">
                 Role to insert
               </label>
@@ -188,7 +188,7 @@ class ProjectForm extends Component {
               ))}
             </select>
             <select
-              className="col-4 col-sm-12 form-select"
+              className="col-4 col-md-3 col-sm-12 form-select"
               id="expertise"
               value={this.state.expertise}
               required
@@ -211,12 +211,12 @@ class ProjectForm extends Component {
             />
           </div>
           <div className="form-group">
-            <div className="col-2 col-sm-12">
+            <div className="col-2 col-md-3 col-sm-12">
               <label className="form-label" htmlFor="project-description">
                 Description
               </label>
             </div>
-            <div className="col-10 col-sm-12">
+            <div className="col-10 col-md-9 col-sm-12">
               <textarea
                 className="form-input"
                 maxLength="300"
@@ -227,18 +227,18 @@ class ProjectForm extends Component {
                 onChange={this.handleChange}
               />
             </div>
+            <button
+              className="btn btn-primary col-10 col-md-9 col-sm-12 col-ml-auto"
+              type="button"
+              onClick={this.appendRole}
+              disabled={
+                this.state.role === "Available roles" ||
+                this.state.expertise === "Knowledge level"
+              }
+            >
+              Add role
+            </button>
           </div>
-          <button
-            className="btn btn-primary"
-            type="button"
-            onClick={this.appendRole}
-            disabled={
-              this.state.role === "Available roles" ||
-              this.state.expertise === "Knowledge level"
-            }
-          >
-            Add role
-          </button>
           <ul className="role-list">
             {this.state.roleList.map(role => (
               <li key={role.key} id={role.key} className="toast">

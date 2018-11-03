@@ -25,6 +25,18 @@ $palette-soft-good: tint($palette-main-good, 80);
 $palette-soft-general: tint($palette-main-general, 80);
 $palette-soft-alt: tint($palette-alt-general, 80);
 
+$palette-hard-bad: shade($palette-main-bad, 20);
+$palette-hard-warn: shade($palette-main-warn, 20);
+$palette-hard-good: shade($palette-main-good, 20);
+$palette-hard-general: shade($palette-main-general, 20);
+$palette-hard-alt: shade($palette-alt-general, 20);
+
+$palette-grayed-bad: tone($palette-main-bad, 20);
+$palette-grayed-warn: tone($palette-main-warn, 20);
+$palette-grayed-good: tone($palette-main-good, 20);
+$palette-grayed-general: tone($palette-main-general, 60);
+$palette-grayed-alt: tone($palette-alt-general, 60);
+
 $palette-soft-background: tint($palette-main-warn, 80);
 $palette-main-text: shade($palette-main-general, 20);
 

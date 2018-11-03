@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Navbar from "../components/navbar/Navbar";
-import ProjectForm from "../components/projectForm/ProjectForm";
-import LoginForm from "../components/loginForm/LoginForm";
-import RegisterForm from "../components/registerForm/RegisterForm";
+import ProjectForm from "../components/forms/ProjectForm";
+import LoginForm from "../components/forms/LoginForm";
+import RegisterForm from "../components/forms/RegisterForm";
 import ShrinkableList from "../components/shrinkableList/ShrinkableList";
 
 import "./App.scss";

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import "./registerForm.scss";
+import "./forms.scss";
 import { timezones } from "../../redux/timezones.js";
 // Timezones credits to dmfilipenko
 
@@ -12,7 +12,7 @@ class RegisterForm extends Component {
       email: "",
       password: "",
       confirm: "",
-      timezone: "",
+      timezone: "Choose your timezone [credits to dmfilipenko]",
       "from-time": "",
       "to-time": "",
       days: [],
@@ -178,10 +178,15 @@ class RegisterForm extends Component {
                 onChange={this.handleChange}
                 id="timezone"
                 value={this.state.timezone}
+                required
               >
-                <option>Choose your timezone [credits to dmfilipenko]</option>
+                <option disabled hidden>
+                  Choose your timezone [credits to dmfilipenko]
+                </option>
                 {timezones.map(timezone => (
-                  <option key={timezone.text}>{timezone.text}</option>
+                  <option key={timezone.text} id={timezone.text}>
+                    {timezone.text}
+                  </option>
                 ))}
               </select>
             </div>
