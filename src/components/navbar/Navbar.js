@@ -11,6 +11,8 @@ class Navbar extends Component {
             Home
           </NavLink>
           <NavLink to="/create-form">New Form</NavLink>
+
+          <NavLink to="/profile">Profile</NavLink>
         </section>
         <section className="navbar-center" />
         <section className="navbar-section">

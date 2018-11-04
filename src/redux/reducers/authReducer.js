@@ -18,7 +18,6 @@ export const authReducer = (state = initState, action) => {
     case registerProcess.REQUEST:
       return state;
     case registerProcess.SUCCESS:
-      console.log("register data: ", action.payload);
       return state;
     case registerProcess.FAILURE:
       return state;

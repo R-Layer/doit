@@ -1,13 +1,11 @@
 const express = require("express");
-const bodyParser = require("body-parser");
-
-const app = express();
-
+const path = require("path");
 const authRoute = require("./routes/authRoute");
 const userRoutes = require("./routes/userRoutes");
 
-app.use(bodyParser.json());
+const app = express();
 
+app.use(express.static(path.join(__dirname, "uploads")));
 app.use("/auth", authRoute);
 app.use("/user", userRoutes);
 app.use("/", (req, res) =>

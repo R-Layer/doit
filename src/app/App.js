@@ -5,6 +5,7 @@ import Navbar from "../components/navbar/Navbar";
 import ProjectForm from "../components/forms/ProjectForm";
 import LoginForm from "../components/forms/LoginForm";
 import RegisterForm from "../components/forms/RegisterForm";
+import Profile from "../components/profile/Profile";
 import ShrinkableList from "../components/shrinkableList/ShrinkableList";
 
 import "./App.scss";
@@ -39,6 +40,15 @@ class App extends Component {
               <Route
                 path="/login"
                 render={() => <LoginForm login={this.props.login} />}
+              />{" "}
+              <Route
+                path="/profile"
+                render={() => (
+                  <Profile
+                    user={this.props.users}
+                    loadUser={this.props.loadUser}
+                  />
+                )}
               />
             </Switch>
           </main>

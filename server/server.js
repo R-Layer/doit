@@ -8,16 +8,14 @@ const configVars = require("./config/keys");
 const port = configVars.PORT;
 const server = http.createServer(app);
 
-mongoose
-  .connect(
-    configVars.MONGO_URL,
-    { useNewUrlParser: true },
-    () => console.log("Mongo connected!")
-  )
-  .catch(err => {
-    console.log("Error on opening db", err);
-    process.exit(1);
-  });
+mongoose.connect(
+  configVars.MONGO_URL,
+  { useNewUrlParser: true },
+  err =>
+    err
+      ? console.log("Error on opening db", err)
+      : console.log("Mongo connected!")
+);
 
 server.listen(port, () => console.log(`Server listening on port ${port}`));
 
