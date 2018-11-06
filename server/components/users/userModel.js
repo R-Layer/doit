@@ -15,11 +15,11 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  from: {
+  fromTime: {
     type: String,
     required: true
   },
-  to: {
+  toTime: {
     type: String,
     required: true
   },

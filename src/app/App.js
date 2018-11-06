@@ -35,7 +35,12 @@ class App extends Component {
               <Route path="/create-form" render={() => <ProjectForm />} />
               <Route
                 path="/register"
-                render={() => <RegisterForm register={this.props.register} />}
+                render={() => (
+                  <RegisterForm
+                    register={this.props.register}
+                    registrationStatus={this.props.registrationStatus}
+                  />
+                )}
               />
               <Route
                 path="/login"

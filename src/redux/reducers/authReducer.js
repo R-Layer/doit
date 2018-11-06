@@ -1,4 +1,4 @@
-import { loginProcess, registerProcess } from "../types";
+import { loginProcess } from "../types";
 
 const initState = {
   listElements: [],
@@ -14,12 +14,6 @@ export const authReducer = (state = initState, action) => {
       console.log("login data: ", action.payload);
       return state;
     case loginProcess.FAILURE:
-      return state;
-    case registerProcess.REQUEST:
-      return state;
-    case registerProcess.SUCCESS:
-      return state;
-    case registerProcess.FAILURE:
       return state;
     default:
       return state;

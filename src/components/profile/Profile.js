@@ -1,9 +1,13 @@
 import React from "react";
 
 export default function Profile(props) {
-  let imageSource = props.user[7] ? props.user[7].avatarPath : "";
-  let user = props.user[7] || { contacts: [] };
-  console.log(user.contacts[0]);
+  let imageSource = props.user.fetch.data
+    ? props.user.fetch.data[7].avatarPath
+    : "";
+  let user = props.user.fetch.data
+    ? props.user.fetch.data[7]
+    : { contacts: [] };
+  console.log(props.user);
   return (
     <div>
       <div className="tile">

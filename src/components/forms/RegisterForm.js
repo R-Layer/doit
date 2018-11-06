@@ -13,20 +13,21 @@ class RegisterForm extends Component {
       password: "",
       confirm: "",
       timezone: "Choose your timezone [credits to dmfilipenko]",
-      "from-time": "",
-      "to-time": "",
+      fromTime: "",
+      toTime: "",
       days: [],
-      avatar: "",
+      avatar: null,
       contact: "",
       contacts: [],
       matchPwd: true
     };
     this.previewRef = React.createRef();
+    this.ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/bmp"];
   }
 
   handleSubmit = e => {
     e.preventDefault();
-    const userData = this.state;
+    const userData = Object.assign({}, this.state);
     delete userData.confirm;
     delete userData.contact;
     delete userData.matchPwd;
@@ -53,11 +54,16 @@ class RegisterForm extends Component {
         }));
   };
 
+  /* On blur and on focus password and confirm field 
+  will trigger this method */
   comparePasswords = () => {
     this.setState({
       matchPwd: this.state.password === this.state.confirm
     });
   };
+
+  /* Method to append and remove the list elements
+     ( contacts here) */
 
   appendContact = e => {
     e.preventDefault();
@@ -82,7 +88,15 @@ class RegisterForm extends Component {
     }));
   };
 
+  /* Create and load a preview of the chosen image  */
   previewImage = e => {
+    if (
+      !this.ALLOWED_IMAGE_TYPES.includes(e.target.files[0].type) ||
+      e.target.files[0].size > 2 * 1024 * 1024
+    ) {
+      e.target.value = null;
+      return;
+    }
     const reader = new FileReader();
     reader.onload = evt => {
       this.previewRef.current.src = evt.target.result;
@@ -94,6 +108,8 @@ class RegisterForm extends Component {
   };
 
   render() {
+    const { errors } = this.props.registrationStatus;
+    console.log("regStat", errors);
     return (
       <form className="form-horizontal" onSubmit={this.handleSubmit}>
         <div className="form-section ">
@@ -123,6 +139,12 @@ class RegisterForm extends Component {
                 value={this.state.email}
                 onChange={this.handleChange}
               />
+              {errors &&
+                errors.email && (
+                  <p className="form-input-hint text-error">
+                    {errors.email.message}
+                  </p>
+                )}
             </div>
           </div>
           <div className="columns" style={{ paddingTop: "1rem" }}>
@@ -202,8 +224,8 @@ class RegisterForm extends Component {
                     <input
                       type="time"
                       className="form-input"
-                      id="from-time"
-                      value={this.state["from-time"]}
+                      id="fromTime"
+                      value={this.state.fromTime}
                       onChange={this.handleChange}
                     />
                     <span className="input-group-addon">
@@ -221,8 +243,8 @@ class RegisterForm extends Component {
                     <input
                       type="time"
                       className="form-input"
-                      id="to-time"
-                      value={this.state["to-time"]}
+                      id="toTime"
+                      value={this.state.toTime}
                       onChange={this.handleChange}
                     />
                     <span className="input-group-addon">
@@ -281,6 +303,7 @@ class RegisterForm extends Component {
               <input
                 style={{ display: "none" }}
                 type="file"
+                accept=".jpeg,.png,.bmp "
                 name="avatar"
                 onChange={this.previewImage}
               />
@@ -292,6 +315,10 @@ class RegisterForm extends Component {
               >
                 Choose your avatar!
               </button>
+              <span className="form-input-hint text-dark">
+                .jpeg, .png, .bmp
+              </span>
+              <span className="form-input-hint text-dark">Max-size: 2MB</span>
             </figure>
           </div>
           <div className="col-2 col-sm-12">
