@@ -17,8 +17,8 @@ export const registerAction = registerData => dispatch => {
   fetch("/user/register", fetchOptions)
     .then(res => res.json())
     .then(res => {
-      if (res.fail) {
-        dispatch({ type: registerUser.FAILURE, payload: res.fail });
+      if (res.errors) {
+        dispatch({ type: registerUser.FAILURE, payload: res.errors });
       } else {
         dispatch({ type: registerUser.SUCCESS, payload: res });
       }
@@ -31,8 +31,8 @@ export const loadUser = () => dispatch => {
   fetch("/user/get-all")
     .then(res => res.json())
     .then(res => {
-      if (res.fail) {
-        dispatch({ type: fetchUsers.FAILURE, payload: res.fail });
+      if (res.errors) {
+        dispatch({ type: fetchUsers.FAILURE, payload: res.errors });
       } else {
         dispatch({ type: fetchUsers.SUCCESS, payload: res });
       }

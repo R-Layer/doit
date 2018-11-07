@@ -13,8 +13,8 @@ class RegisterForm extends Component {
       password: "",
       confirm: "",
       timezone: "Choose your timezone [credits to dmfilipenko]",
-      fromTime: "",
-      toTime: "",
+      fromTime: "00:00",
+      toTime: "23:59",
       days: [],
       avatar: null,
       contact: "",
@@ -52,6 +52,13 @@ class RegisterForm extends Component {
       : this.setState(prevState => ({
           days: [...prevState.days, checkedId]
         }));
+
+    if (
+      this.props.registrationStatus.fail &&
+      this.props.registrationStatus.fail.days
+    ) {
+      delete this.props.registrationStatus.fail.days;
+    }
   };
 
   /* On blur and on focus password and confirm field 
@@ -107,9 +114,22 @@ class RegisterForm extends Component {
     });
   };
 
+  deleteError = e => {
+    console.log(e.target.id);
+    if (e.target.id === "password") {
+      this.setState({ matchPwd: true });
+    }
+    if (
+      this.props.registrationStatus.fail &&
+      this.props.registrationStatus.fail.hasOwnProperty(e.target.id)
+    ) {
+      delete this.props.registrationStatus.fail[e.target.id];
+      this.forceUpdate();
+    }
+  };
+
   render() {
-    const { errors } = this.props.registrationStatus;
-    console.log("regStat", errors);
+    const { fail } = this.props.registrationStatus;
     return (
       <form className="form-horizontal" onSubmit={this.handleSubmit}>
         <div className="form-section ">
@@ -125,7 +145,16 @@ class RegisterForm extends Component {
                 id="username"
                 value={this.state.username}
                 onChange={this.handleChange}
+                onFocus={this.deleteError}
               />
+              {fail &&
+                fail.username &&
+                fail.username.map((msg, i) => (
+                  <span key={i}>
+                    <small className="form-input-hint text-error">{msg}</small>
+                    <div className="divider" />
+                  </span>
+                ))}
             </div>
             <div className="col-2  col-sm-12">
               <label className="form-label" htmlFor="email">
@@ -138,13 +167,16 @@ class RegisterForm extends Component {
                 id="email"
                 value={this.state.email}
                 onChange={this.handleChange}
+                onFocus={this.deleteError}
               />
-              {errors &&
-                errors.email && (
-                  <p className="form-input-hint text-error">
-                    {errors.email.message}
-                  </p>
-                )}
+              {fail &&
+                fail.email &&
+                fail.email.map((msg, i) => (
+                  <span key={i}>
+                    <small className="form-input-hint text-error">{msg}</small>
+                    <div className="divider" />
+                  </span>
+                ))}
             </div>
           </div>
           <div className="columns" style={{ paddingTop: "1rem" }}>
@@ -160,9 +192,17 @@ class RegisterForm extends Component {
                 id="password"
                 value={this.state.password}
                 onChange={this.handleChange}
-                onFocus={() => this.setState({ matchPwd: true })}
+                onFocus={this.deleteError}
                 onBlur={this.comparePasswords}
               />
+              {fail &&
+                fail.password &&
+                fail.password.map((msg, i) => (
+                  <span key={i}>
+                    <small className="form-input-hint text-error">{msg}</small>
+                    <div className="divider" />
+                  </span>
+                ))}
             </div>
             <div className="col-2  col-sm-12">
               <label className="form-label" htmlFor="confirm">
@@ -227,6 +267,7 @@ class RegisterForm extends Component {
                       id="fromTime"
                       value={this.state.fromTime}
                       onChange={this.handleChange}
+                      onFocus={this.deleteError}
                     />
                     <span className="input-group-addon">
                       <small>UTC</small>
@@ -246,6 +287,7 @@ class RegisterForm extends Component {
                       id="toTime"
                       value={this.state.toTime}
                       onChange={this.handleChange}
+                      onFocus={this.deleteError}
                     />
                     <span className="input-group-addon">
                       <small>UTC</small>
@@ -286,7 +328,17 @@ class RegisterForm extends Component {
                     <input type="checkbox" name="days" id="sun" />
                     <i className="form-icon" /> sun
                   </label>
-                </fieldset>
+                </fieldset>{" "}
+                {fail &&
+                  fail.days &&
+                  fail.days.map((msg, i) => (
+                    <span key={i}>
+                      <small className="form-input-hint text-error">
+                        {msg}
+                      </small>
+                      <div className="divider" />
+                    </span>
+                  ))}
               </div>
             </div>
           </div>

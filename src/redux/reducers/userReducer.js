@@ -7,9 +7,9 @@ const registerReducer = (state = {}, action) => {
     case registerUser.REQUEST:
       return { isPending: true };
     case registerUser.SUCCESS:
-      return { data: action.payload };
-    case registerUser.FAILURE:
       return action.payload;
+    case registerUser.FAILURE:
+      return { fail: action.payload };
     default:
       return state;
   }

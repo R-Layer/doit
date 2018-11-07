@@ -1,16 +1,16 @@
 import React from "react";
 
 export default function Profile(props) {
-  let imageSource = props.user.fetch.data
+  /*   let imageSource = props.user.fetch.data
     ? props.user.fetch.data[7].avatarPath
     : "";
   let user = props.user.fetch.data
     ? props.user.fetch.data[7]
     : { contacts: [] };
-  console.log(props.user);
+  console.log(props.user);   */
   return (
     <div>
-      <div className="tile">
+      {/*  <div className="tile">
         <div className="tile-icon">
           <figure className="avatar avatar-lg">
             <img src={imageSource} alt="Avatar" />
@@ -36,7 +36,7 @@ export default function Profile(props) {
           </ul>
         </div>
       </div>
-      <button onClick={props.loadUser}>Load stuff</button>
+      <button onClick={props.loadUser}>Load stuff</button> */}
     </div>
   );
 }

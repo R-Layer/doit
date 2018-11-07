@@ -17,7 +17,7 @@ exports.user_create_one = (req, res) => {
       if (user) {
         if (req.file) fs.unlinkSync(req.file.path);
         res.status(409).json({
-          fail: { errors: { email: { message: "Email already in use" } } }
+          errors: [{ field: "email", message: "Email already in use" }]
         });
       } else {
         bcrypt
@@ -64,5 +64,5 @@ exports.user_read_all = (req, res) => {
   User.find({})
     .exec()
     .then(users => res.status(200).json(users))
-    .catch(err => res.status(500).json(err));
+    .catch(err => res.status(500).json({ fail: err }));
 };
