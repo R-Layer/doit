@@ -1,20 +1,32 @@
-import { loginProcess } from "../types";
+import { loginProcess, LOGOUT } from "../types";
 
 const initState = {
-  listElements: [],
-  filterString: "",
-  activeItem: null
+  isPending: false,
+  loggedIn: false,
+  user: null,
+  error: null
 };
 
 export const authReducer = (state = initState, action) => {
   switch (action.type) {
     case loginProcess.REQUEST:
-      return state;
+      return { ...state, isPending: true };
     case loginProcess.SUCCESS:
-      console.log("login data: ", action.payload);
-      return state;
+      return {
+        ...state,
+        isPending: false,
+        loggedIn: true,
+        user: action.payload
+      };
     case loginProcess.FAILURE:
-      return state;
+      return {
+        ...state,
+        isPending: false,
+        loggedIn: false,
+        error: action.payload
+      };
+    case LOGOUT:
+      return { loggedIn: false };
     default:
       return state;
   }

@@ -1,14 +1,40 @@
-import { loginProcess } from "../types";
+import { loginProcess, LOGOUT } from "../types";
+import jwt_decode from "jwt-decode";
 
-export const loginAction = loginData => dispatch => {
-  dispatch({ type: loginProcess.REQUEST });
+export const loginAction = (loginData, history, token = null) => dispatch => {
+  if (token) {
+    let rawData = jwt_decode(token);
+    rawData.exp > Date.now()
+      ? dispatch({ type: LOGOUT })
+      : dispatch({ type: loginProcess.SUCCESS, payload: token });
+  } else {
+    dispatch({ type: loginProcess.REQUEST });
 
-  /* fake auth */
-  let i = 0;
-  while (i < 100000) {
-    i++;
+    let fetchOptions = {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(loginData)
+    };
+
+    return fetch("/auth/login", fetchOptions)
+      .then(res => res.json())
+      .then(loginResult => {
+        if (loginResult.fail) {
+          dispatch({ type: loginProcess.FAILURE, payload: loginResult.fail });
+        } else {
+          localStorage.setItem("userToken", loginResult.auth);
+          history.push("/");
+          dispatch({
+            type: loginProcess.SUCCESS,
+            payload: loginResult
+          });
+        }
+      })
+      .catch(err => dispatch({ type: loginProcess.FAILURE, payload: err }));
   }
-  /* --- */
+};
 
-  return dispatch({ type: loginProcess.SUCCESS, payload: loginData });
+export const logoutAction = () => dispatch => {
+  localStorage.removeItem("userToken");
+  dispatch({ type: LOGOUT });
 };

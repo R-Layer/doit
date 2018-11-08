@@ -10,14 +10,26 @@ class Navbar extends Component {
           <NavLink exact to="/">
             Home
           </NavLink>
-          <NavLink to="/create-form">New Form</NavLink>
+          {this.props.authStatus.loggedIn && (
+            <>
+              <NavLink to="/create-form">New Form</NavLink>
 
-          <NavLink to="/profile">Profile</NavLink>
+              <NavLink to="/profile">Profile</NavLink>
+            </>
+          )}
         </section>
         <section className="navbar-center" />
         <section className="navbar-section">
-          <NavLink to="/login">Login</NavLink>
-          <NavLink to="/register">SignUp</NavLink>
+          {!this.props.authStatus.loggedIn ? (
+            <>
+              <NavLink to="/login">Login</NavLink>
+              <NavLink to="/register">SignUp</NavLink>
+            </>
+          ) : (
+            <NavLink to="/login" onClick={() => this.props.logout()}>
+              Logout
+            </NavLink>
+          )}
         </section>
       </nav>
     );

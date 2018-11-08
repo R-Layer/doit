@@ -19,7 +19,8 @@ class RegisterForm extends Component {
       avatar: null,
       contact: "",
       contacts: [],
-      matchPwd: true
+      matchPwd: true,
+      isTimeValid: true
     };
     this.previewRef = React.createRef();
     this.ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/bmp"];
@@ -32,7 +33,7 @@ class RegisterForm extends Component {
     delete userData.contact;
     delete userData.matchPwd;
 
-    this.props.register(userData);
+    this.props.register(userData, this.props.history);
   };
 
   /* Controlled form - input type text-select-number */
@@ -67,6 +68,11 @@ class RegisterForm extends Component {
     this.setState({
       matchPwd: this.state.password === this.state.confirm
     });
+  };
+
+  checkTimes = () => {
+    let fromHour = this.state.fromTime.match(/\d{2}/);
+    console.log(fromHour);
   };
 
   /* Method to append and remove the list elements
@@ -268,6 +274,7 @@ class RegisterForm extends Component {
                       value={this.state.fromTime}
                       onChange={this.handleChange}
                       onFocus={this.deleteError}
+                      onBlur={this.checkTimes}
                     />
                     <span className="input-group-addon">
                       <small>UTC</small>
@@ -294,6 +301,11 @@ class RegisterForm extends Component {
                     </span>
                   </div>
                 </div>
+                {!this.state.isTimeValid && (
+                  <div className="form-input-hint text-error">
+                    Please insert valid times
+                  </div>
+                )}
               </div>
               <div className="columns column col-6 col-xs-12">
                 <fieldset

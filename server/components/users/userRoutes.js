@@ -3,17 +3,14 @@ const router = express.Router();
 const path = require("path");
 
 const multer = require("multer");
-const validatorMw = require("../components/validatorMw");
+const validatorMw = require("../validatorMw");
 
-const {
-  user_create_one,
-  user_read_all
-} = require("../components/users/userController");
+const { user_create_one, user_read_all } = require("./userController");
 
 const multerOptions = {
   storage: multer.diskStorage({
     destination: function(req, file, callback) {
-      callback(null, path.resolve(__dirname, "../uploads"));
+      callback(null, path.resolve(__dirname, "../../uploads"));
     },
     filename: function(req, file, callback) {
       const ext = file.mimetype.split("/")[1];

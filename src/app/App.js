@@ -11,12 +11,21 @@ import ShrinkableList from "../components/shrinkableList/ShrinkableList";
 import "./App.scss";
 
 class App extends Component {
+  componentDidMount() {
+    if (localStorage.userToken) {
+      this.props.login(null, null, localStorage.userToken);
+    }
+  }
+
   render() {
     return (
       <Router>
         <div className="app-container">
           <header>
-            <Navbar />
+            <Navbar
+              authStatus={this.props.authStatus}
+              logout={this.props.logout}
+            />
           </header>
           <main>
             <Switch>
@@ -35,16 +44,24 @@ class App extends Component {
               <Route path="/create-form" render={() => <ProjectForm />} />
               <Route
                 path="/register"
-                render={() => (
+                render={props => (
                   <RegisterForm
                     register={this.props.register}
                     registrationStatus={this.props.registrationStatus}
+                    {...props}
                   />
                 )}
               />
               <Route
                 path="/login"
-                render={() => <LoginForm login={this.props.login} />}
+                render={props => (
+                  <LoginForm
+                    login={this.props.login}
+                    logout={this.props.logout}
+                    authStatus={this.props.authStatus}
+                    {...props}
+                  />
+                )}
               />{" "}
               <Route
                 path="/profile"

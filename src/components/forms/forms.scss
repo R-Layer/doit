@@ -85,7 +85,30 @@ form > button {
 }
 
 /*************** error appearance ***************/
-// TODO
+.error-notification {
+  margin: auto;
+  max-width: 400px;
+  text-align: center;
+  font: 500 1.2rem Arial;
+}
+.error-notification-enter {
+  opacity: 0.01;
+  transform: scale(0.9) translateY(50%);
+}
+.error-notification-enter-active {
+  opacity: 1;
+  transform: scale(1) translateY(0%);
+  transition: all 300ms ease-out;
+}
+.error-notification-exit {
+  opacity: 1;
+  transform: scale(1) translateY(0%);
+}
+.error-notification-exit-active {
+  opacity: 0.01;
+  transform: scale(0.9) translateY(50%);
+  transition: all 300ms ease-out;
+}
 
 /*************** form specific ******************/
 

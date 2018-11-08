@@ -5,7 +5,7 @@ import {
   setFilterString
 } from "../redux/actions/listActions";
 
-import { loginAction } from "../redux/actions/authActions";
+import { loginAction, logoutAction } from "../redux/actions/authActions";
 import { registerAction, loadUser } from "../redux/actions/userActions";
 
 import App from "../app/App";
@@ -23,8 +23,11 @@ const mapDispatchToProps = dispatch => ({
   fetchList: () => dispatch(fetchList()),
   setActive: id => dispatch(setActiveItem(id)),
   setFilter: filter => dispatch(setFilterString(filter)),
-  login: loginData => dispatch(loginAction(loginData)),
-  register: registerData => dispatch(registerAction(registerData)),
+  login: (loginData, history, token) =>
+    dispatch(loginAction(loginData, history, token)),
+  logout: () => dispatch(logoutAction()),
+  register: (registerData, history) =>
+    dispatch(registerAction(registerData, history)),
   loadUser: () => dispatch(loadUser())
 });
 

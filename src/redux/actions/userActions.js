@@ -1,6 +1,6 @@
 import { registerUser, fetchUsers, GENERAL_FAILURE } from "../types";
 
-export const registerAction = registerData => dispatch => {
+export const registerAction = (registerData, history) => dispatch => {
   dispatch({ type: registerUser.REQUEST });
   const formData = new FormData();
   for (let data in registerData) {
@@ -21,6 +21,7 @@ export const registerAction = registerData => dispatch => {
         dispatch({ type: registerUser.FAILURE, payload: res.errors });
       } else {
         dispatch({ type: registerUser.SUCCESS, payload: res });
+        this.props.history.push("/");
       }
     })
     .catch(err => dispatch({ type: GENERAL_FAILURE, payload: err }));

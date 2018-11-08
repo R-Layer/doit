@@ -15,6 +15,8 @@ export const loginProcess = {
   FAILURE: "LOGIN_FAILURE"
 };
 
+export const LOGOUT = "LOGOUT";
+
 /* ---- General failure ---- */
 export const GENERAL_FAILURE = "GENERAL_FAILURE";
 
