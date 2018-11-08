@@ -10,9 +10,17 @@ exports.login_user = (req, res) => {
         .compare(req.body.password, user.password)
         .then(result => {
           if (result) {
-            let token = jwt.sign({ payload: user._id }, configVars.JWT_SECRET, {
-              expiresIn: "1h"
-            });
+            let token = jwt.sign(
+              {
+                id: user._id,
+                username: user.username,
+                avatarPath: user.avatarPath
+              },
+              configVars.JWT_SECRET,
+              {
+                expiresIn: "1h"
+              }
+            );
             res.status(200).json({ auth: token });
           } else {
             res.status(401).json({ fail: { message: "Login failed" } });

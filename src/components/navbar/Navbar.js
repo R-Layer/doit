@@ -4,6 +4,12 @@ import "./navbar.scss";
 
 class Navbar extends Component {
   render() {
+    let avtPath = "./placeholder";
+    let usrName = "Jhon Smith";
+    if (this.props.authStatus.user) {
+      avtPath = this.props.authStatus.user.avatarPath || "./placeholder";
+      usrName = this.props.authStatus.user.username || "Jhon Smith";
+    }
     return (
       <nav className="navbar">
         <section className="navbar-section">
@@ -13,8 +19,6 @@ class Navbar extends Component {
           {this.props.authStatus.loggedIn && (
             <>
               <NavLink to="/create-form">New Form</NavLink>
-
-              <NavLink to="/profile">Profile</NavLink>
             </>
           )}
         </section>
@@ -26,9 +30,18 @@ class Navbar extends Component {
               <NavLink to="/register">SignUp</NavLink>
             </>
           ) : (
-            <NavLink to="/login" onClick={() => this.props.logout()}>
-              Logout
-            </NavLink>
+            <>
+              <NavLink to="/profile">
+                <figure className="avatar">
+                  <img src={avtPath} alt="usr" />
+                </figure>
+              </NavLink>
+              <span className="text-gray">{usrName}</span>
+
+              <NavLink to="/login" onClick={() => this.props.logout()}>
+                Logout
+              </NavLink>
+            </>
           )}
         </section>
       </nav>

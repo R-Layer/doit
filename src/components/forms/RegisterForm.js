@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import "./forms.scss";
+
 import { timezones } from "../../redux/timezones.js";
 // Timezones credits to dmfilipenko
 
@@ -33,7 +34,9 @@ class RegisterForm extends Component {
     delete userData.contact;
     delete userData.matchPwd;
 
-    this.props.register(userData, this.props.history);
+    if (this.state.isTimeValid) {
+      this.props.register(userData, this.props.history);
+    }
   };
 
   /* Controlled form - input type text-select-number */
@@ -70,9 +73,14 @@ class RegisterForm extends Component {
     });
   };
 
-  checkTimes = () => {
-    let fromHour = this.state.fromTime.match(/\d{2}/);
-    console.log(fromHour);
+  checkTimes = e => {
+    let hourPattern = /[0-2][0-9]:/;
+    let minutePattern = /:[0-5][0-9]/;
+
+    this.setState({
+      isTimeValid:
+        hourPattern.test(e.target.value) && minutePattern.test(e.target.value)
+    });
   };
 
   /* Method to append and remove the list elements
@@ -121,7 +129,6 @@ class RegisterForm extends Component {
   };
 
   deleteError = e => {
-    console.log(e.target.id);
     if (e.target.id === "password") {
       this.setState({ matchPwd: true });
     }
@@ -295,6 +302,7 @@ class RegisterForm extends Component {
                       value={this.state.toTime}
                       onChange={this.handleChange}
                       onFocus={this.deleteError}
+                      onBlur={this.checkTimes}
                     />
                     <span className="input-group-addon">
                       <small>UTC</small>

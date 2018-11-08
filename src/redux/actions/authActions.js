@@ -3,10 +3,15 @@ import jwt_decode from "jwt-decode";
 
 export const loginAction = (loginData, history, token = null) => dispatch => {
   if (token) {
-    let rawData = jwt_decode(token);
-    rawData.exp > Date.now()
-      ? dispatch({ type: LOGOUT })
-      : dispatch({ type: loginProcess.SUCCESS, payload: token });
+    try {
+      let rawData = jwt_decode(token);
+
+      rawData.exp > Date.now()
+        ? dispatch({ type: LOGOUT })
+        : dispatch({ type: loginProcess.SUCCESS, payload: rawData });
+    } catch (err) {
+      console.log(err);
+    }
   } else {
     dispatch({ type: loginProcess.REQUEST });
 
@@ -24,10 +29,15 @@ export const loginAction = (loginData, history, token = null) => dispatch => {
         } else {
           localStorage.setItem("userToken", loginResult.auth);
           history.push("/");
-          dispatch({
-            type: loginProcess.SUCCESS,
-            payload: loginResult
-          });
+          try {
+            let rawData = jwt_decode(loginResult.auth);
+            dispatch({
+              type: loginProcess.SUCCESS,
+              payload: rawData
+            });
+          } catch (err) {
+            console.log(err);
+          }
         }
       })
       .catch(err => dispatch({ type: loginProcess.FAILURE, payload: err }));
