@@ -5,6 +5,7 @@ import Navbar from "../components/navbar/Navbar";
 import ProjectForm from "../components/forms/ProjectForm";
 import LoginForm from "../components/forms/LoginForm";
 import RegisterForm from "../components/forms/RegisterForm";
+import ProfilePage from "../components/forms/ProfilePage";
 import Profile from "../components/profile/Profile";
 import ShrinkableList from "../components/shrinkableList/ShrinkableList";
 
@@ -62,16 +63,12 @@ class App extends Component {
                     {...props}
                   />
                 )}
-              />{" "}
+              />
               <Route
                 path="/profile"
-                render={() => (
-                  <Profile
-                    user={this.props.users}
-                    loadUser={this.props.loadUser}
-                  />
-                )}
+                render={() => <Profile user={this.props.authStatus.user} />}
               />
+              <Route path="/update" render={() => <ProfilePage />} />
             </Switch>
           </main>
         </div>

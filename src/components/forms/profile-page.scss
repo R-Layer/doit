@@ -1,0 +1,60 @@
+.update-element {
+  display: flex;
+  justify-content: space-between;
+
+  margin: 2rem 1rem 0;
+  border-bottom: 1px solid #234;
+}
+
+.update-field {
+  border: none;
+}
+
+.update-button {
+  margin: 1.6rem 1rem 0;
+}
+
+.row {
+  margin: 2rem;
+  //border: 1px solid #72b;
+}
+
+table {
+  width: 100%;
+}
+
+td {
+  padding: 1rem;
+  text-align: center;
+}
+
+.avatar-container {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  margin: 1rem;
+  img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+
+  .file-input {
+    overflow: hidden;
+  }
+}
+
+.project-overview-list li {
+  display: flex;
+
+  span {
+    flex-grow: 1;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .project-overview-list li {
+    flex-flow: column nowrap;
+  }
+}
