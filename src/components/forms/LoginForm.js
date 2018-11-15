@@ -31,7 +31,10 @@ class LoginForm extends Component {
   render() {
     return (
       <>
-        <form className="form-horizontal" onSubmit={this.handleSubmit}>
+        <form
+          className="form-horizontal form-card"
+          onSubmit={this.handleSubmit}
+        >
           <div className="form-section ">
             <div className=" columns">
               <div className="col-2  col-sm-12">

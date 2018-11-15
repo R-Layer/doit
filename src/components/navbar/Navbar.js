@@ -28,12 +28,9 @@ class Navbar extends Component {
             <>
               <NavLink to="/login">Login</NavLink>
               <NavLink to="/register">SignUp</NavLink>
-
-              <NavLink to="/update">update</NavLink>
             </>
           ) : (
             <>
-              {" "}
               <NavLink to="/profile">
                 <figure className="avatar">
                   <img src={avtPath} alt="usr" />

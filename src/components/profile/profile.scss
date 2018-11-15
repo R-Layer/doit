@@ -8,6 +8,7 @@
 
 .update-field {
   border: none;
+  width: 80%;
 }
 
 .update-button {
@@ -57,4 +58,13 @@ td {
   .project-overview-list li {
     flex-flow: column nowrap;
   }
+}
+
+.content input {
+  width: 100%;
+  margin: 0.5rem auto;
+}
+
+.content label {
+  margin: 0.32rem auto;
 }

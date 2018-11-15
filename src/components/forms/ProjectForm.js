@@ -80,7 +80,7 @@ class ProjectForm extends Component {
 
   render() {
     return (
-      <form className="form-horizontal" onSubmit={this.handleSubmit}>
+      <form className="form-horizontal form-card" onSubmit={this.handleSubmit}>
         <div className="form-section">
           <div className="form-group">
             <div className="col-2 col-md-3 col-sm-12">

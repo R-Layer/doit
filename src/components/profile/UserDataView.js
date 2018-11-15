@@ -1,19 +1,27 @@
 import React, { Component } from "react";
 
-//import { timezones } from "../../redux/timezones.js";
-// Timezones credits to dmfilipenko
+import ModalFormFields from "../ModalFormFields";
+import * as modalSnippets from "./ModalSnippets";
 
-class UserDataTab extends Component {
+import "./profile.scss";
+
+class UserDataView extends Component {
   constructor(props) {
     super(props);
     this.state = {
       username: "Username",
       email: "test@test.com",
-      isMobile: false
+      isMobile: false,
+      activeModal: null
     };
 
     this.previewRef = React.createRef();
     this.ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/bmp"];
+    this.TITLES = {
+      password_change: "Change your password",
+      add_timespan: "Add timespan",
+      add_contact: "Add contact"
+    };
   }
 
   toggleEdit = e => {
@@ -46,8 +54,39 @@ class UserDataTab extends Component {
     e.target.closest("table").deleteRow(e.target.closest("tr").rowIndex);
   };
 
+  openModal = e => {
+    this.setState({
+      activeModal: e.target.id
+    });
+  };
+
+  collectModalData = modalForm => {
+    const modalDataObj = {};
+    const modalFieldsData = new FormData(modalForm);
+    for (let pair of modalFieldsData.entries()) {
+      if (modalDataObj.hasOwnProperty(pair[0])) {
+        Array.isArray(modalDataObj[pair[0]])
+          ? modalDataObj[pair[0]].push(pair[1])
+          : (modalDataObj[pair[0]] = [modalDataObj[pair[0]], pair[1]]);
+      } else {
+        modalDataObj[pair[0]] = pair[1];
+      }
+    }
+    return modalDataObj;
+  };
+
+  insertModalData = e => {
+    e.preventDefault();
+    let test = this.collectModalData(e.target);
+    console.log(test);
+    console.log(this.state.activeModal);
+    this.setState({
+      activeModal: null
+    });
+  };
+
   render() {
-    const { isMobile } = this.state;
+    const { isMobile, activeModal } = this.state;
     return (
       <div>
         <div className="row">
@@ -76,7 +115,13 @@ class UserDataTab extends Component {
                 </div>
               </div>
               <div className="column col-4 col-sm-12">
-                <button className="update-button">Change password</button>
+                <button
+                  className="update-button"
+                  id="password_change"
+                  onClick={this.openModal}
+                >
+                  Change password
+                </button>
               </div>
             </div>
           </div>
@@ -128,7 +173,13 @@ class UserDataTab extends Component {
                     </tbody>
                   </table>
                 )}
-                <button className="btn btn-is-primary">Add Timespan</button>
+                <button
+                  className="btn btn-is-primary"
+                  id="add_timespan"
+                  onClick={this.openModal}
+                >
+                  Add Timespan
+                </button>
                 <div className="divider" />
                 <table>
                   <thead>
@@ -147,7 +198,13 @@ class UserDataTab extends Component {
                     </tr>
                   </tbody>
                 </table>
-                <button className="btn btn-is-primary">Add Contact</button>
+                <button
+                  className="btn btn-is-primary"
+                  id="add_contact"
+                  onClick={this.openModal}
+                >
+                  Add Contact
+                </button>
               </div>
               <div className="column col-4 col-md-12">
                 <figure className="avatar-container">
@@ -183,137 +240,26 @@ class UserDataTab extends Component {
             </div>
           </div>
         </div>
+        <ModalFormFields
+          title={this.TITLES[activeModal]}
+          isActive={!!activeModal}
+          onConfirm={this.insertModalData}
+          onClose={() => this.setState({ activeModal: null })}
+        >
+          {/*    Super-neat trick from https://www.robinwieruch.de
+          to make conditional much much readable!
+          */}
+          {
+            {
+              password_change: <modalSnippets.ChangePassword />,
+              add_timespan: <modalSnippets.AddTimespan />,
+              add_contact: <modalSnippets.AddContactSnippet />
+            }[activeModal]
+          }
+        </ModalFormFields>
       </div>
     );
   }
 }
 
-const UserActivityTab = () => {
-  return (
-    <div className="columns">
-      <div className="column col-8 col-mx-auto">
-        <details className="accordion" open>
-          <summary className="accordion-header">
-            <i className="icon icon-arrow-right mr-1" />
-            Active Projects
-          </summary>
-          <div className="accordion-body">
-            <ul className="project-overview-list">
-              <li>
-                <span>Project Name</span>
-                <span>Code Archive</span>
-                <span>Live</span>
-              </li>
-              <div className="divider" />
-              <li>
-                <span>Project Name</span>
-                <span>Code Archive</span>
-                <span>Live</span>
-              </li>
-              <div className="divider" />
-              <li>
-                <span>Project Name</span>
-                <span>Code Archive</span>
-                <span>Live</span>
-              </li>
-            </ul>
-          </div>
-        </details>
-        <details className="accordion" open>
-          <summary className="accordion-header">
-            <i className="icon icon-arrow-right mr-1" />
-            Completed Projects
-          </summary>
-          <div className="accordion-body">
-            <ul className="project-overview-list">
-              <li>
-                <span>Project Name</span>
-                <span>Code Archive</span>
-                <span>Live</span>
-              </li>
-              <div className="divider" />
-              <li>
-                <span>Project Name</span>
-                <span>Code Archive</span>
-                <span>Live</span>
-              </li>
-              <div className="divider" />
-              <li>
-                <span>Project Name</span>
-                <span>Code Archive</span>
-                <span>Live</span>
-              </li>
-            </ul>
-          </div>
-        </details>
-        <details className="accordion" open>
-          <summary className="accordion-header">
-            <i className="icon icon-arrow-right mr-1" />
-            Abandoned Projects
-          </summary>
-          <div className="accordion-body">
-            <ul className="project-overview-list">
-              <li>
-                <span>Project Name</span>
-                <span>Code Archive</span>
-                <span>Live</span>
-              </li>
-              <div className="divider" />
-              <li>
-                <span>Project Name</span>
-                <span>Code Archive</span>
-                <span>Live</span>
-              </li>
-              <div className="divider" />
-              <li>
-                <span>Project Name</span>
-                <span>Code Archive</span>
-                <span>Live</span>
-              </li>
-            </ul>
-          </div>
-        </details>
-      </div>
-    </div>
-  );
-};
-
-class ProfilePage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeTab: 0
-    };
-  }
-
-  switchTab = e => {
-    e.preventDefault();
-    this.setState({
-      activeTab: Array.prototype.indexOf.call(
-        e.currentTarget.children,
-        e.target.closest("li")
-      )
-    });
-  };
-
-  render() {
-    const { activeTab } = this.state;
-    return (
-      <>
-        <div className="row">
-          <ul className="tab tab-block" onClick={this.switchTab}>
-            <li className={`tab-item ${activeTab === 0 ? "active" : ""}`}>
-              <a href="/update">My Data</a>
-            </li>
-            <li className={`tab-item ${activeTab === 1 ? "active" : ""}`}>
-              <a href="/update">My History</a>
-            </li>
-          </ul>
-        </div>
-        {activeTab === 1 ? <UserActivityTab /> : <UserDataTab />}
-      </>
-    );
-  }
-}
-
-export default ProfilePage;
+export default UserDataView;
