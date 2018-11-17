@@ -66,3 +66,28 @@ exports.user_read_all = (req, res) => {
     .then(users => res.status(200).json(users))
     .catch(err => res.status(500).json({ fail: err }));
 };
+
+exports.user_get_by_ID = (req, res) => {
+  User.findOne({ _id: req.tokenInfo.id })
+    .then(user => {
+      console.log(user);
+      res.status(200).json({ user });
+    })
+    .catch(err => console.log(err));
+};
+
+exports.user_update_by_ID = (req, res) => {
+  User.findOneAndUpdate(
+    { _id: req.tokenInfo.id },
+    {
+      $set: req.body
+    },
+    { new: true, runValidators: true }
+  )
+    .select("username days contacts")
+    .then(result => {
+      console.log(result);
+      res.status(200).json({ result });
+    })
+    .catch(err => console.log(err));
+};

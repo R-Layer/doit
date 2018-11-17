@@ -4,8 +4,14 @@ const path = require("path");
 
 const multer = require("multer");
 const validatorMw = require("../validatorMw");
+const authorizationMw = require("../authorizationMw");
 
-const { user_create_one, user_read_all } = require("./userController");
+const {
+  user_create_one,
+  user_read_all,
+  user_get_by_ID,
+  user_update_by_ID
+} = require("./userController");
 
 const multerOptions = {
   storage: multer.diskStorage({
@@ -26,5 +32,7 @@ const uploadAvatar = multer(multerOptions).single("avatar");
 
 router.post("/register", uploadAvatar, validatorMw, user_create_one);
 router.get("/get-all", user_read_all);
+router.get("/get-self", authorizationMw, user_get_by_ID);
+router.patch("/update-self", authorizationMw, user_update_by_ID);
 
 module.exports = router;

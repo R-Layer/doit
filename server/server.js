@@ -1,6 +1,9 @@
 const path = require("path");
 const http = require("http");
 const mongoose = require("mongoose");
+mongoose.set("useNewUrlParser", true);
+mongoose.set("useFindAndModify", false);
+mongoose.set("useCreateIndex", true);
 
 const app = require("./app");
 const configVars = require("./config/keys");
