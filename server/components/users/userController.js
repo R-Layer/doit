@@ -84,7 +84,7 @@ exports.user_update_by_ID = (req, res) => {
     },
     { new: true, runValidators: true }
   )
-    .select("username days contacts")
+    .select("-avatarImage")
     .then(result => {
       console.log(result);
       res.status(200).json({ result });
