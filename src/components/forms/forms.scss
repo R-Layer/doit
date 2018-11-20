@@ -116,6 +116,26 @@ form > button {
   justify-content: space-evenly;
 }
 
+.time-row {
+  border-bottom: 1px groove #50473f;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  span {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .time-row {
+    flex-flow: column nowrap;
+    span {
+      width: 100%;
+    }
+  }
+}
+
 .avatar-container {
   display: flex;
   flex-flow: column nowrap;

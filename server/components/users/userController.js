@@ -27,10 +27,7 @@ exports.user_create_one = (req, res) => {
               username: req.body.username,
               email: req.body.email,
               password: hash,
-              fromTime: req.body.fromTime,
-              toTime: req.body.toTime,
-              timezone: req.body.timezone,
-              days: req.body.days,
+              timezones: req.body.timezones,
               contacts: req.body.contacts,
               avatarImage: {
                 binaryData: fs.readFileSync(avatar.path),
@@ -69,8 +66,8 @@ exports.user_read_all = (req, res) => {
 
 exports.user_get_by_ID = (req, res) => {
   User.findOne({ _id: req.tokenInfo.id })
+    .select("-avatarImage -password")
     .then(user => {
-      console.log(user);
       res.status(200).json({ user });
     })
     .catch(err => console.log(err));
@@ -84,7 +81,7 @@ exports.user_update_by_ID = (req, res) => {
     },
     { new: true, runValidators: true }
   )
-    .select("-avatarImage")
+    .select("-avatarImage -password")
     .then(result => {
       console.log(result);
       res.status(200).json({ result });

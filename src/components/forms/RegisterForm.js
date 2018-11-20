@@ -13,6 +13,7 @@ class RegisterForm extends Component {
       email: "",
       password: "",
       confirm: "",
+      timezones: [],
       timezone: "Choose your timezone [credits to dmfilipenko]",
       fromTime: "00:00",
       toTime: "23:59",
@@ -29,11 +30,14 @@ class RegisterForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const userData = Object.assign({}, this.state);
-    delete userData.confirm;
-    delete userData.contact;
-    delete userData.matchPwd;
-
+    const userData = {
+      username: this.state.username,
+      email: this.state.email,
+      password: this.state.password,
+      timezones: this.state.timezones,
+      avatar: this.state.avatar,
+      contacts: this.state.contacts
+    };
     if (this.state.isTimeValid) {
       this.props.register(userData, this.props.history);
     }
@@ -81,6 +85,34 @@ class RegisterForm extends Component {
       isTimeValid:
         hourPattern.test(e.target.value) && minutePattern.test(e.target.value)
     });
+  };
+
+  addTimespan = () => {
+    const daysFormat = this.state.days.map(
+      (el, i) => ` ${el}${i === this.state.days.length - 1 ? "" : ","}`
+    );
+
+    const newTimezone = {
+      timezone: this.state.timezone,
+      fromTime: this.state.fromTime,
+      toTime: this.state.toTime,
+      days: daysFormat,
+      key: Date.now()
+    };
+
+    this.setState(prevState => ({
+      timezones: [...prevState.timezones, newTimezone],
+      fromTime: "00:00",
+      toTime: "23:59",
+      days: []
+    }));
+  };
+
+  removeTimespan = e => {
+    let ID_toremove = parseInt(e.currentTarget.id);
+    this.setState(prevState => ({
+      timezones: prevState.timezones.filter(tmz => tmz.key !== ID_toremove)
+    }));
   };
 
   /* Method to append and remove the list elements
@@ -321,31 +353,73 @@ class RegisterForm extends Component {
                   onChange={this.handleCheck}
                 >
                   <label className="form-checkbox form-inline">
-                    <input type="checkbox" name="days" id="mon" />
+                    <input
+                      type="checkbox"
+                      name="days"
+                      id="mon"
+                      checked={this.state.days.includes("mon")}
+                      onChange={() => this.handleCheck}
+                    />
                     <i className="form-icon" /> mon
                   </label>
                   <label className="form-checkbox form-inline">
-                    <input type="checkbox" name="days" id="tue" />
+                    <input
+                      type="checkbox"
+                      name="days"
+                      id="tue"
+                      checked={this.state.days.includes("tue")}
+                      onChange={() => this.handleCheck}
+                    />
                     <i className="form-icon" /> tue
                   </label>
                   <label className="form-checkbox form-inline">
-                    <input type="checkbox" name="days" id="wed" />
+                    <input
+                      type="checkbox"
+                      name="days"
+                      id="wed"
+                      checked={this.state.days.includes("wed")}
+                      onChange={() => this.handleCheck}
+                    />
                     <i className="form-icon" /> wed
                   </label>
                   <label className="form-checkbox form-inline">
-                    <input type="checkbox" name="days" id="thu" />
+                    <input
+                      type="checkbox"
+                      name="days"
+                      id="thu"
+                      checked={this.state.days.includes("thu")}
+                      onChange={() => this.handleCheck}
+                    />
                     <i className="form-icon" /> thu
                   </label>
                   <label className="form-checkbox form-inline">
-                    <input type="checkbox" name="days" id="fri" />
+                    <input
+                      type="checkbox"
+                      name="days"
+                      id="fri"
+                      checked={this.state.days.includes("fri")}
+                      onChange={() => this.handleCheck}
+                    />
                     <i className="form-icon" /> fri
                   </label>
                   <label className="form-checkbox form-inline">
-                    <input type="checkbox" name="days" id="sat" />
+                    <input
+                      type="checkbox"
+                      name="days"
+                      id="sat"
+                      checked={this.state.days.includes("sat")}
+                      onChange={() => this.handleCheck}
+                    />
                     <i className="form-icon" /> sat
                   </label>
                   <label className="form-checkbox form-inline">
-                    <input type="checkbox" name="days" id="sun" />
+                    <input
+                      type="checkbox"
+                      name="days"
+                      id="sun"
+                      checked={this.state.days.includes("sun")}
+                      onChange={() => this.handleCheck}
+                    />
                     <i className="form-icon" /> sun
                   </label>
                 </fieldset>{" "}
@@ -361,6 +435,32 @@ class RegisterForm extends Component {
                   ))}
               </div>
             </div>
+            <button
+              className="btn btn-success btn-action s-circle"
+              type="button"
+              onClick={this.addTimespan}
+            >
+              <i className="icon icon-check" />
+            </button>
+            <section className="column col-12">
+              {this.state.timezones.map(tmz => (
+                <div
+                  className="time-row"
+                  key={tmz.key}
+                  id={tmz.key}
+                  onClick={this.removeTimespan}
+                >
+                  <span>{tmz.timezone.match(/[-+]\d{2}:\d{2}/)}</span>
+                  <span>
+                    {tmz.fromTime} / {tmz.toTime}
+                  </span>
+                  <span>{tmz.days}</span>
+                  <button className="btn btn-error btn-action " type="button">
+                    <i className="icon icon-cross" />
+                  </button>
+                </div>
+              ))}
+            </section>
           </div>
         </div>
         <div className="form-section columns">

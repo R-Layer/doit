@@ -66,7 +66,12 @@ class App extends Component {
               />
               <Route
                 path="/profile"
-                render={() => <Profile user={this.props.authStatus.user} />}
+                render={() => (
+                  <Profile
+                    user={this.props.user}
+                    loadSelf={this.props.loadSelf}
+                  />
+                )}
               />
               <Route path="/update" render={() => <ProfilePage />} />
             </Switch>

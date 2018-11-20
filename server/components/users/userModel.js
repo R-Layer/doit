@@ -1,20 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
-  username: {
-    type: String,
-    default: "Jhon Smith"
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
+const timezonesSchema = new Schema({
   fromTime: {
     type: String,
     required: true
@@ -29,6 +16,30 @@ const userSchema = new Schema({
   },
   days: {
     type: Array,
+    required: true
+  },
+  key: {
+    type: Number,
+    required: true
+  }
+});
+
+const userSchema = new Schema({
+  username: {
+    type: String,
+    default: "Jhon Smith"
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  timezones: {
+    type: [timezonesSchema],
     required: true
   },
   contacts: {

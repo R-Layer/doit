@@ -9,8 +9,13 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: 0
+      activeTab: 0,
+      user: null
     };
+  }
+
+  componentDidMount() {
+    this.props.loadSelf().then(() => this.setState({ user: this.props.user }));
   }
 
   switchTab = e => {
@@ -37,7 +42,11 @@ class Profile extends Component {
             </li>
           </ul>
         </div>
-        {activeTab === 1 ? <UserActivityView /> : <UserDataView />}
+        {activeTab === 1 ? (
+          <UserActivityView />
+        ) : (
+          <UserDataView user={this.state.user} />
+        )}
 
         {/*         <div class="modal active" id="modal-id">
           <a href="#close" class="modal-overlay" aria-label="Close" />

@@ -29,6 +29,12 @@ export const registerUser = {
 };
 
 export const fetchUsers = {
+  REQUEST: "FETCH_USERS_REQUEST",
+  SUCCESS: "FETCH_USERS_SUCCESS",
+  FAILURE: "FETCH_USERS_FAILURE"
+};
+
+export const fetchUser = {
   REQUEST: "FETCH_USER_REQUEST",
   SUCCESS: "FETCH_USER_SUCCESS",
   FAILURE: "FETCH_USER_FAILURE"

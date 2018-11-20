@@ -9,10 +9,15 @@ class UserDataView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "Username",
-      email: "test@test.com",
       isMobile: false,
-      activeModal: null
+      activeModal: null,
+      user: {
+        username: "",
+        email: "",
+        contacts: [],
+        timezones: [],
+        avatarPath: "placeholder.png"
+      }
     };
 
     this.previewRef = React.createRef();
@@ -22,6 +27,13 @@ class UserDataView extends Component {
       add_timespan: "Add timespan",
       add_contact: "Add contact"
     };
+  }
+
+  componentDidUpdate() {
+    if (this.props.user && this.state.user.username === "")
+      this.setState({
+        user: this.props.user.data.user
+      });
   }
 
   toggleEdit = e => {
@@ -86,7 +98,7 @@ class UserDataView extends Component {
   };
 
   render() {
-    const { isMobile, activeModal } = this.state;
+    const { isMobile, activeModal, user } = this.state;
     return (
       <div>
         <div className="row">
@@ -98,7 +110,7 @@ class UserDataView extends Component {
                     type="text"
                     className="update-field"
                     onChange={this.handleChange}
-                    value={this.state.username}
+                    value={user.username}
                   />
                   <i className="icon icon-edit" />
                 </div>
@@ -109,7 +121,7 @@ class UserDataView extends Component {
                     type="text"
                     className="update-field"
                     onChange={this.handleChange}
-                    value={this.state.email}
+                    value={user.email}
                   />
                   <i className="icon icon-edit" />
                 </div>
@@ -138,18 +150,20 @@ class UserDataView extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>
-                          UTC+6:00
-                          <br />
-                          8:00 / 11:00
-                          <br />
-                          Mon, tue, thu
-                        </td>
-                        <td>
-                          <button>&times;</button>
-                        </td>
-                      </tr>
+                      {user.timezones.map(tmz => (
+                        <tr key={tmz.key}>
+                          <td>
+                            {tmz.timezone.match(/[-+]\d{2}:\d{2}/)}
+                            <br />
+                            {tmz.fromTime} / {tmz.toTime}
+                            <br />
+                            {tmz.days}
+                          </td>
+                          <td>
+                            <button onClick={this.deleteRow}>&times;</button>
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 ) : (
@@ -162,14 +176,18 @@ class UserDataView extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>UTC+6:00</td>
-                        <td>8:00 / 11:00</td>
-                        <td>Mon, tue, thu</td>
-                        <td>
-                          <button onClick={this.deleteRow}>&times;</button>
-                        </td>
-                      </tr>
+                      {user.timezones.map(tmz => (
+                        <tr key={tmz.key}>
+                          <td>{tmz.timezone.match(/[-+]\d{2}:\d{2}/)}</td>
+                          <td>
+                            {tmz.fromTime} / {tmz.toTime}
+                          </td>
+                          <td>{tmz.days}</td>
+                          <td>
+                            <button onClick={this.deleteRow}>&times;</button>
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 )}
@@ -188,14 +206,16 @@ class UserDataView extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>www.my-contact-1.com</td>
-                      <td />
-                      <td />
-                      <td>
-                        <button onClick={this.deleteRow}>&times;</button>
-                      </td>
-                    </tr>
+                    {user.contacts.map(contact => (
+                      <tr key={contact.key}>
+                        <td>{contact.value}</td>
+                        <td />
+                        <td />
+                        <td>
+                          <button onClick={this.deleteRow}>&times;</button>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
                 <button
@@ -210,7 +230,7 @@ class UserDataView extends Component {
                 <figure className="avatar-container">
                   <img
                     ref={this.previewRef}
-                    src="placeholder.png"
+                    src={user.avatarPath}
                     alt="preview-avatar"
                     className="img-responsive"
                   />{" "}

@@ -1,6 +1,12 @@
 import { combineReducers } from "redux";
 
-import { registerUser, fetchUsers, updateUser, deleteUser } from "../types";
+import {
+  registerUser,
+  fetchUsers,
+  fetchUser,
+  updateUser,
+  deleteUser
+} from "../types";
 
 const registerReducer = (state = {}, action) => {
   switch (action.type) {
@@ -22,6 +28,19 @@ const fetchUsersReducer = (state = [], action) => {
     case fetchUsers.SUCCESS:
       return { data: action.payload };
     case fetchUsers.FAILURE:
+      return { error: action.payload };
+    default:
+      return state;
+  }
+};
+
+const fetchUserReducer = (state = {}, action) => {
+  switch (action.type) {
+    case fetchUser.REQUEST:
+      return { isPending: true };
+    case fetchUser.SUCCESS:
+      return { data: action.payload };
+    case fetchUser.FAILURE:
       return { error: action.payload };
     default:
       return state;
@@ -56,7 +75,7 @@ const deleteUserReducer = (state = [], action) => {
 
 export const userReducer = combineReducers({
   register: registerReducer,
-  fetch: fetchUsersReducer,
+  fetch: combineReducers({ users: fetchUsersReducer, user: fetchUserReducer }),
   delete: deleteUserReducer,
   update: updateUserReducer
 });
