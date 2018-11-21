@@ -83,7 +83,6 @@ exports.user_update_by_ID = (req, res) => {
   )
     .select("-avatarImage -password")
     .then(result => {
-      console.log(result);
       res.status(200).json({ result });
     })
     .catch(err => console.log(err));

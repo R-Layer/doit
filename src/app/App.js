@@ -70,6 +70,7 @@ class App extends Component {
                   <Profile
                     user={this.props.user}
                     loadSelf={this.props.loadSelf}
+                    updateSelf={this.props.updateSelf}
                   />
                 )}
               />

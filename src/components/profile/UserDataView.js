@@ -11,6 +11,7 @@ class UserDataView extends Component {
     this.state = {
       isMobile: false,
       activeModal: null,
+      isEditing: false,
       user: {
         username: "",
         email: "",
@@ -28,7 +29,12 @@ class UserDataView extends Component {
       add_contact: "Add contact"
     };
   }
-
+  componentDidMount() {
+    if (this.props.user && this.state.user.username === "")
+      this.setState({
+        user: this.props.user.data.user
+      });
+  }
   componentDidUpdate() {
     if (this.props.user && this.state.user.username === "")
       this.setState({
@@ -37,11 +43,18 @@ class UserDataView extends Component {
   }
 
   toggleEdit = e => {
-    console.log(e.currentTarget);
+    this.setState({
+      isEditing: this.state.isEditing ? false : e.currentTarget.id
+    });
   };
 
   handleChange = e => {
-    console.log("change", e.currentTarget);
+    this.setState({
+      user: {
+        ...this.state.user,
+        [e.target.id]: e.target.value
+      }
+    });
   };
 
   previewImage = e => {
@@ -63,7 +76,44 @@ class UserDataView extends Component {
   };
 
   deleteRow = e => {
-    e.target.closest("table").deleteRow(e.target.closest("tr").rowIndex);
+    let rowID = parseInt(e.target.closest("tr").id, 10);
+    if (e.target.nodeName === "BUTTON") {
+      switch (e.currentTarget.id) {
+        case "timespan_table":
+          this.setState(
+            prevState => ({
+              user: {
+                ...prevState.user,
+                timezones: [
+                  ...prevState.user.timezones.filter(tmz => tmz.key !== rowID)
+                ]
+              },
+              activeModal: null
+            }),
+            () =>
+              this.props.updateSelf({ timezones: this.state.user.timezones })
+          );
+          break;
+        case "contact_table":
+          this.setState(
+            prevState => ({
+              user: {
+                ...prevState.user,
+                contacts: [
+                  ...prevState.user.contacts.filter(
+                    contact => contact.key !== rowID
+                  )
+                ]
+              },
+              activeModal: null
+            }),
+            () => this.props.updateSelf({ contacts: this.state.user.contacts })
+          );
+          break;
+        default:
+          break;
+      }
+    }
   };
 
   openModal = e => {
@@ -75,13 +125,13 @@ class UserDataView extends Component {
   collectModalData = modalForm => {
     const modalDataObj = {};
     const modalFieldsData = new FormData(modalForm);
-    for (let pair of modalFieldsData.entries()) {
-      if (modalDataObj.hasOwnProperty(pair[0])) {
-        Array.isArray(modalDataObj[pair[0]])
-          ? modalDataObj[pair[0]].push(pair[1])
-          : (modalDataObj[pair[0]] = [modalDataObj[pair[0]], pair[1]]);
+    for (let entry of modalFieldsData.entries()) {
+      if (modalDataObj.hasOwnProperty(entry[0])) {
+        Array.isArray(modalDataObj[entry[0]])
+          ? modalDataObj[entry[0]].push(entry[1])
+          : (modalDataObj[entry[0]] = [modalDataObj[entry[0]], entry[1]]);
       } else {
-        modalDataObj[pair[0]] = pair[1];
+        modalDataObj[entry[0]] = entry[1];
       }
     }
     return modalDataObj;
@@ -89,41 +139,88 @@ class UserDataView extends Component {
 
   insertModalData = e => {
     e.preventDefault();
-    let test = this.collectModalData(e.target);
-    console.log(test);
-    console.log(this.state.activeModal);
-    this.setState({
-      activeModal: null
-    });
+    let modalData = this.collectModalData(e.target);
+    switch (this.state.activeModal) {
+      case "add_contact":
+        this.setState(
+          prevState => ({
+            user: {
+              ...prevState.user,
+              contacts: [
+                ...prevState.user.contacts,
+                { value: modalData.contact, key: Date.now() }
+              ]
+            },
+            activeModal: null
+          }),
+          () => this.props.updateSelf({ contacts: this.state.user.contacts })
+        );
+        break;
+      case "add_timespan":
+        this.setState(
+          prevState => ({
+            user: {
+              ...prevState.user,
+              timezones: [
+                ...prevState.user.timezones,
+                { ...modalData, key: Date.now() }
+              ]
+            },
+            activeModal: null
+          }),
+          () => this.props.updateSelf({ timezones: this.state.user.timezones })
+        );
+        break;
+      case "password_change":
+        this.setState({
+          activeModal: null
+        });
+        break;
+      default:
+        break;
+    }
   };
 
   render() {
     const { isMobile, activeModal, user } = this.state;
+    let editable = this.state.isEditing;
     return (
       <div>
         <div className="row">
           <div className="container">
             <div className="columns">
               <div className="column col-4 col-sm-12">
-                <div className="update-element" onClick={this.toggleEdit}>
+                <div className="update-element">
                   <input
                     type="text"
+                    id="username"
                     className="update-field"
                     onChange={this.handleChange}
                     value={user.username}
+                    disabled={!(editable === "username_edit")}
                   />
-                  <i className="icon icon-edit" />
+                  <i
+                    className="icon icon-edit"
+                    onClick={this.toggleEdit}
+                    id="username_edit"
+                  />
                 </div>
               </div>
               <div className="column col-4 col-sm-12">
-                <div className="update-element" onClick={this.toggleEdit}>
+                <div className="update-element">
                   <input
                     type="text"
+                    id="email"
                     className="update-field"
                     onChange={this.handleChange}
                     value={user.email}
+                    disabled={!(editable === "email_edit")}
                   />
-                  <i className="icon icon-edit" />
+                  <i
+                    className="icon icon-edit"
+                    onClick={this.toggleEdit}
+                    id="email_edit"
+                  />
                 </div>
               </div>
               <div className="column col-4 col-sm-12">
@@ -143,7 +240,7 @@ class UserDataView extends Component {
             <div className="columns">
               <div className="column col-8 col-md-12">
                 {isMobile ? (
-                  <table>
+                  <table onClick={this.deleteRow} id="timespan_table">
                     <thead>
                       <tr>
                         <th>Time availability</th>
@@ -151,7 +248,7 @@ class UserDataView extends Component {
                     </thead>
                     <tbody>
                       {user.timezones.map(tmz => (
-                        <tr key={tmz.key}>
+                        <tr key={tmz.key} id={tmz.key}>
                           <td>
                             {tmz.timezone.match(/[-+]\d{2}:\d{2}/)}
                             <br />
@@ -160,14 +257,14 @@ class UserDataView extends Component {
                             {tmz.days}
                           </td>
                           <td>
-                            <button onClick={this.deleteRow}>&times;</button>
+                            <button>&times;</button>
                           </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 ) : (
-                  <table>
+                  <table onClick={this.deleteRow} id="timespan_table">
                     <thead>
                       <tr>
                         <th>Timezone</th>
@@ -177,14 +274,14 @@ class UserDataView extends Component {
                     </thead>
                     <tbody>
                       {user.timezones.map(tmz => (
-                        <tr key={tmz.key}>
+                        <tr key={tmz.key} id={tmz.key}>
                           <td>{tmz.timezone.match(/[-+]\d{2}:\d{2}/)}</td>
                           <td>
                             {tmz.fromTime} / {tmz.toTime}
                           </td>
                           <td>{tmz.days}</td>
                           <td>
-                            <button onClick={this.deleteRow}>&times;</button>
+                            <button>&times;</button>
                           </td>
                         </tr>
                       ))}
@@ -199,7 +296,7 @@ class UserDataView extends Component {
                   Add Timespan
                 </button>
                 <div className="divider" />
-                <table>
+                <table onClick={this.deleteRow} id="contact_table">
                   <thead>
                     <tr>
                       <th>My Contacts </th>
@@ -207,12 +304,12 @@ class UserDataView extends Component {
                   </thead>
                   <tbody>
                     {user.contacts.map(contact => (
-                      <tr key={contact.key}>
+                      <tr key={contact.key} id={contact.key}>
                         <td>{contact.value}</td>
                         <td />
                         <td />
                         <td>
-                          <button onClick={this.deleteRow}>&times;</button>
+                          <button>&times;</button>
                         </td>
                       </tr>
                     ))}

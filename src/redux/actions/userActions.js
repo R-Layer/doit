@@ -1,4 +1,10 @@
-import { registerUser, fetchUsers, fetchUser, GENERAL_FAILURE } from "../types";
+import {
+  registerUser,
+  fetchUsers,
+  fetchUser,
+  GENERAL_FAILURE,
+  updateUser
+} from "../types";
 
 export const registerAction = (registerData, history) => dispatch => {
   dispatch({ type: registerUser.REQUEST });
@@ -13,10 +19,6 @@ export const registerAction = (registerData, history) => dispatch => {
     method: "POST",
     body: formData
   };
-  // Display the key/value pairs
-  for (var pair of formData.entries()) {
-    console.log(pair[0] + ", " + pair[1]);
-  }
 
   fetch("/user/register", fetchOptions)
     .then(res => res.json())
@@ -60,6 +62,29 @@ export const loadSelf = () => dispatch => {
         dispatch({ type: fetchUser.FAILURE, payload: res.errors });
       } else {
         dispatch({ type: fetchUser.SUCCESS, payload: res });
+      }
+    })
+    .catch(err => dispatch({ type: GENERAL_FAILURE, payload: err }));
+};
+
+export const updateSelf = updateData => dispatch => {
+  dispatch({ type: updateUser.REQUEST });
+  const fetchOptions = {
+    method: "PATCH",
+    headers: {
+      authorization: localStorage.userToken,
+      "Content-type": "application/json"
+    },
+    body: JSON.stringify(updateData)
+  };
+
+  return fetch("/user/update-self", fetchOptions)
+    .then(res => res.json())
+    .then(res => {
+      if (res.errors) {
+        dispatch({ type: updateUser.FAILURE, payload: res.errors });
+      } else {
+        dispatch({ type: updateUser.SUCCESS, payload: res });
       }
     })
     .catch(err => dispatch({ type: GENERAL_FAILURE, payload: err }));

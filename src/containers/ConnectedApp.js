@@ -9,7 +9,8 @@ import { loginAction, logoutAction } from "../redux/actions/authActions";
 import {
   registerAction,
   loadUsers,
-  loadSelf
+  loadSelf,
+  updateSelf
 } from "../redux/actions/userActions";
 
 import App from "../app/App";
@@ -34,7 +35,8 @@ const mapDispatchToProps = dispatch => ({
   register: (registerData, history) =>
     dispatch(registerAction(registerData, history)),
   loadUsers: () => dispatch(loadUsers()),
-  loadSelf: () => dispatch(loadSelf())
+  loadSelf: () => dispatch(loadSelf()),
+  updateSelf: userData => dispatch(updateSelf(userData))
 });
 
 export default connect(
