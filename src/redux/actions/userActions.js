@@ -89,3 +89,26 @@ export const updateSelf = updateData => dispatch => {
     })
     .catch(err => dispatch({ type: GENERAL_FAILURE, payload: err }));
 };
+
+export const updatePwdSelf = updateData => dispatch => {
+  dispatch({ type: updateUser.REQUEST });
+  const fetchOptions = {
+    method: "PATCH",
+    headers: {
+      authorization: localStorage.userToken,
+      "Content-type": "application/json"
+    },
+    body: JSON.stringify(updateData)
+  };
+
+  return fetch("/user/update-pwd-self", fetchOptions)
+    .then(res => res.json())
+    .then(res => {
+      if (res.fail || res.errors) {
+        dispatch({ type: updateUser.FAILURE, payload: res.fail || res.errors });
+      } else {
+        dispatch({ type: updateUser.SUCCESS, payload: res });
+      }
+    })
+    .catch(err => dispatch({ type: GENERAL_FAILURE, payload: err }));
+};

@@ -8,6 +8,9 @@ const validator = (req, res, next) => {
     case "/register":
       schemaToCheckAgainst = userSchemas.registerSchema;
       break;
+    case "/update-pwd-self":
+      schemaToCheckAgainst = userSchemas.updatePwdSchema;
+      break;
     default:
       schemaToCheckAgainst = null;
       break;

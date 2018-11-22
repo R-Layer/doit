@@ -87,3 +87,37 @@ exports.user_update_by_ID = (req, res) => {
     })
     .catch(err => console.log(err));
 };
+
+exports.user_update_pwd_by_ID = (req, res) => {
+  User.findOne({ _id: req.tokenInfo.id }).then(user => {
+    if (user) {
+      bcrypt
+        .compare(req.body.old_password, user.password)
+        .then(result => {
+          if (result) {
+            bcrypt
+              .hash(req.body.new_password, 10)
+              .then(hash => user.set({ password: hash }).save())
+              .then(
+                res
+                  .status(200)
+                  .json({ message: "password successfully changed" })
+              )
+
+              .catch(err =>
+                res.status(500).json({ fail: { message: "Server error" }, err })
+              );
+          } else {
+            res.status(401).json({
+              fail: { message: "Old password does not match the actual one!" }
+            });
+          }
+        })
+        .catch(err => {
+          res.status(500).json({ fail: err });
+        });
+    } else {
+      res.status(401).json({ fail: { message: "Login failed" } });
+    }
+  });
+};

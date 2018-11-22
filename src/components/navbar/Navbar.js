@@ -6,9 +6,9 @@ class Navbar extends Component {
   render() {
     let avtPath = "./placeholder";
     let usrName = "Jhon Smith";
-    if (this.props.authStatus.user) {
-      avtPath = this.props.authStatus.user.avatarPath || "./placeholder";
-      usrName = this.props.authStatus.user.username || "Jhon Smith";
+    if (this.props.user.data) {
+      avtPath = this.props.user.data.user.avatarPath || "./placeholder";
+      usrName = this.props.user.data.user.username || "Jhon Smith";
     }
     return (
       <nav className="navbar">
@@ -31,12 +31,18 @@ class Navbar extends Component {
             </>
           ) : (
             <>
-              <NavLink to="/profile">
-                <figure className="avatar">
-                  <img src={avtPath} alt="usr" />
-                </figure>
-              </NavLink>
-              <span className="text-gray">{usrName}</span>
+              {this.props.user.isPending ? (
+                <div className="loading" />
+              ) : (
+                <>
+                  <NavLink to="/profile">
+                    <figure className="avatar">
+                      <img src={avtPath} alt="usr" />
+                    </figure>
+                  </NavLink>
+                  <span className="text-gray">{usrName}</span>
+                </>
+              )}
               <NavLink to="/login" onClick={() => this.props.logout()}>
                 Logout
               </NavLink>

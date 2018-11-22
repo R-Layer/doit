@@ -18,6 +18,10 @@ class Profile extends Component {
     this.props.loadSelf().then(() => this.setState({ user: this.props.user }));
   }
 
+  reloadUser = () => {
+    this.props.loadSelf().then(() => this.setState({ user: this.props.user }));
+  };
+
   switchTab = e => {
     e.preventDefault();
     this.setState({
@@ -47,7 +51,10 @@ class Profile extends Component {
         ) : (
           <UserDataView
             user={this.state.user}
+            reloadUser={this.reloadUser}
             updateSelf={this.props.updateSelf}
+            updatePwdSelf={this.props.updatePwdSelf}
+            updateUserStatus={this.props.updateUserStatus}
           />
         )}
       </>

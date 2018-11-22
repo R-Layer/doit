@@ -32,3 +32,15 @@ exports.registerSchema = Joi.object({
   contacts: Joi.array(),
   avatar: Joi.any()
 });
+
+exports.updatePwdSchema = Joi.object({
+  old_password: Joi.string()
+    .trim()
+    .min(6)
+    .required(),
+  new_password: Joi.string()
+    .trim()
+    .min(6)
+    .required(),
+  confirm_password: Joi.any().valid(Joi.ref("new_password"))
+});

@@ -25,6 +25,7 @@ class App extends Component {
           <header>
             <Navbar
               authStatus={this.props.authStatus}
+              user={this.props.user}
               logout={this.props.logout}
             />
           </header>
@@ -71,6 +72,8 @@ class App extends Component {
                     user={this.props.user}
                     loadSelf={this.props.loadSelf}
                     updateSelf={this.props.updateSelf}
+                    updatePwdSelf={this.props.updatePwdSelf}
+                    updateUserStatus={this.props.updateUserStatus}
                   />
                 )}
               />

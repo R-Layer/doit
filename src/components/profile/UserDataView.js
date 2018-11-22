@@ -43,6 +43,18 @@ class UserDataView extends Component {
   }
 
   toggleEdit = e => {
+    if (this.state.isEditing) {
+      this.props
+        .updateSelf({
+          [e.currentTarget.previousSibling.id]: this.state.user[
+            e.currentTarget.previousSibling.id
+          ]
+        })
+        .then(() => {
+          this.props.reloadUser();
+        })
+        .catch(err => console.error(err));
+    }
     this.setState({
       isEditing: this.state.isEditing ? false : e.currentTarget.id
     });
@@ -172,9 +184,17 @@ class UserDataView extends Component {
         );
         break;
       case "password_change":
-        this.setState({
-          activeModal: null
-        });
+        this.props
+          .updatePwdSelf(modalData)
+          .then(() => {
+            if (this.props.updateUserStatus.error) {
+            } else {
+              this.setState({
+                activeModal: null
+              });
+            }
+          })
+          .catch(err => console.log(err));
         break;
       default:
         break;
@@ -362,6 +382,7 @@ class UserDataView extends Component {
           isActive={!!activeModal}
           onConfirm={this.insertModalData}
           onClose={() => this.setState({ activeModal: null })}
+          errors={this.props.updateUserStatus.error}
         >
           {/*    Super-neat trick from https://www.robinwieruch.de
           to make conditional much much readable!

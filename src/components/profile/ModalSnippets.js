@@ -5,7 +5,7 @@ import { timezones } from "../../redux/timezones.js";
 
 const fail = "";
 
-export const ChangePassword = () => {
+export const ChangePassword = ({ errors }) => {
   return (
     <div className="columns">
       <div className="col-5  col-sm-12">
@@ -20,6 +20,14 @@ export const ChangePassword = () => {
           id="old_password"
           name="old_password"
         />
+        {errors &&
+          errors.old_password &&
+          errors.old_password.map((msg, i) => (
+            <span key={i}>
+              <small className="form-input-hint text-error">{msg}</small>
+              <div className="divider" />
+            </span>
+          ))}
       </div>
       <div className="col-5  col-sm-12">
         <label className="form-label" htmlFor="new_password">
@@ -32,7 +40,15 @@ export const ChangePassword = () => {
           className="form-input"
           id="new_password"
           name="new_password"
-        />
+        />{" "}
+        {errors &&
+          errors.new_password &&
+          errors.new_password.map((msg, i) => (
+            <span key={i}>
+              <small className="form-input-hint text-error">{msg}</small>
+              <div className="divider" />
+            </span>
+          ))}
       </div>
       <div className="col-5  col-sm-12">
         <label className="form-label" htmlFor="confirm_password">
@@ -46,6 +62,14 @@ export const ChangePassword = () => {
           id="confirm_password"
           name="confirm_password"
         />
+        {errors &&
+          errors.confirm_password &&
+          errors.confirm_password.map((msg, i) => (
+            <span key={i}>
+              <small className="form-input-hint text-error">{msg}</small>
+              <div className="divider" />
+            </span>
+          ))}
       </div>
     </div>
   );
