@@ -54,6 +54,7 @@ class Profile extends Component {
             reloadUser={this.reloadUser}
             updateSelf={this.props.updateSelf}
             updatePwdSelf={this.props.updatePwdSelf}
+            updateAvtSelf={this.props.updateAvtSelf}
             updateUserStatus={this.props.updateUserStatus}
           />
         )}

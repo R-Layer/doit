@@ -33,6 +33,18 @@ exports.registerSchema = Joi.object({
   avatar: Joi.any()
 });
 
+exports.updateSchema = Joi.object({
+  username: Joi.string()
+    .trim()
+    .min(2)
+    .max(15),
+  email: Joi.string()
+    .trim()
+    .email(),
+  timezones: Joi.array().items(timezonesSchema),
+  contacts: Joi.array()
+});
+
 exports.updatePwdSchema = Joi.object({
   old_password: Joi.string()
     .trim()

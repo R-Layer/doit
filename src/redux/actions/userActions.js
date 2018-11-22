@@ -23,7 +23,6 @@ export const registerAction = (registerData, history) => dispatch => {
   fetch("/user/register", fetchOptions)
     .then(res => res.json())
     .then(res => {
-      console.log("res", res);
       if (res.errors) {
         dispatch({ type: registerUser.FAILURE, payload: res.errors });
       } else {
@@ -81,8 +80,8 @@ export const updateSelf = updateData => dispatch => {
   return fetch("/user/update-self", fetchOptions)
     .then(res => res.json())
     .then(res => {
-      if (res.errors) {
-        dispatch({ type: updateUser.FAILURE, payload: res.errors });
+      if (res.fail || res.errors) {
+        dispatch({ type: updateUser.FAILURE, payload: res.fail || res.errors });
       } else {
         dispatch({ type: updateUser.SUCCESS, payload: res });
       }
@@ -102,6 +101,31 @@ export const updatePwdSelf = updateData => dispatch => {
   };
 
   return fetch("/user/update-pwd-self", fetchOptions)
+    .then(res => res.json())
+    .then(res => {
+      if (res.fail || res.errors) {
+        dispatch({ type: updateUser.FAILURE, payload: res.fail || res.errors });
+      } else {
+        dispatch({ type: updateUser.SUCCESS, payload: res });
+      }
+    })
+    .catch(err => dispatch({ type: GENERAL_FAILURE, payload: err }));
+};
+
+export const updateAvtSelf = updateData => dispatch => {
+  const formData = new FormData();
+  formData.append("avatar", updateData);
+
+  dispatch({ type: updateUser.REQUEST });
+  const fetchOptions = {
+    method: "PATCH",
+    headers: {
+      authorization: localStorage.userToken
+    },
+    body: formData
+  };
+
+  return fetch("/user/update-avt-self", fetchOptions)
     .then(res => res.json())
     .then(res => {
       if (res.fail || res.errors) {

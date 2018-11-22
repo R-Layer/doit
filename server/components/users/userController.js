@@ -121,3 +121,26 @@ exports.user_update_pwd_by_ID = (req, res) => {
     }
   });
 };
+
+exports.user_update_avt_by_ID = (req, res) => {
+  let avatar = req.file || defaultAvatar;
+
+  User.findOneAndUpdate(
+    { _id: req.tokenInfo.id },
+    {
+      $set: {
+        avatarImage: {
+          binaryData: fs.readFileSync(avatar.path),
+          mimeType: avatar.mimeType
+        },
+        avatarPath: avatar.filename
+      }
+    },
+    { new: true }
+  )
+    .select("-avatarImage -password")
+    .then(result => {
+      res.status(200).json({ result });
+    })
+    .catch(err => console.log(err));
+};

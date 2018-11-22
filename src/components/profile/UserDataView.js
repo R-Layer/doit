@@ -82,9 +82,11 @@ class UserDataView extends Component {
       this.previewRef.current.src = evt.target.result;
     };
     reader.readAsDataURL(e.target.files[0]);
-    this.setState({
-      avatar: e.target.files[0]
-    });
+
+    this.props
+      .updateAvtSelf(e.target.files[0])
+      .then(() => this.props.reloadUser())
+      .catch(err => console.error(err));
   };
 
   deleteRow = e => {
@@ -203,6 +205,7 @@ class UserDataView extends Component {
 
   render() {
     const { isMobile, activeModal, user } = this.state;
+    let { error } = this.props.updateUserStatus;
     let editable = this.state.isEditing;
     return (
       <div>
@@ -225,6 +228,16 @@ class UserDataView extends Component {
                     id="username_edit"
                   />
                 </div>
+                {error &&
+                  error.username &&
+                  error.username.map((msg, i) => (
+                    <span key={i}>
+                      <small className="form-input-hint text-error">
+                        {msg}
+                      </small>
+                      <div className="divider" />
+                    </span>
+                  ))}
               </div>
               <div className="column col-4 col-sm-12">
                 <div className="update-element">
@@ -242,6 +255,16 @@ class UserDataView extends Component {
                     id="email_edit"
                   />
                 </div>
+                {error &&
+                  error.email &&
+                  error.email.map((msg, i) => (
+                    <span key={i}>
+                      <small className="form-input-hint text-error">
+                        {msg}
+                      </small>
+                      <div className="divider" />
+                    </span>
+                  ))}
               </div>
               <div className="column col-4 col-sm-12">
                 <button
@@ -364,7 +387,7 @@ class UserDataView extends Component {
                     name="avatar"
                     onClick={e => e.target.previousSibling.click()}
                   >
-                    Choose your avatar!
+                    Change your avatar
                   </button>
                   <span className="form-input-hint text-dark">
                     .jpeg, .png, .bmp
